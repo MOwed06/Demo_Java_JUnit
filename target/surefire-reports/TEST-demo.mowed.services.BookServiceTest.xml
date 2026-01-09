@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="demo.mowed.services.AuthServiceTest" time="1.59" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="demo.mowed.services.BookServiceTest" time="0.037" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,117 +59,43 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testAuthorizeValid(String, String, boolean, boolean)[1]" classname="demo.mowed.services.AuthServiceTest" time="1.499">
+  <testcase name="testGetSimpleBook" classname="demo.mowed.services.BookServiceTest" time="0.035">
     <system-out><![CDATA[Hibernate: 
-    create table appUsers (
-        Key integer,
-        Password varchar(255),
-        Role integer,
-        UserEmail varchar(255),
-        UserName varchar(255),
-        IsActive integer,
-        Wallet float,
-        primary key (Key)
-    )
-Hibernate: 
-    create table bookReviews (
-        Key integer,
-        BookKey integer,
-        Description varchar(255),
-        ReviewDate date,
-        Score integer,
-        UserKey integer,
-        primary key (Key)
-    )
-Hibernate: 
-    create table books (
-        Key integer,
-        Author varchar(255),
-        Description varchar(255),
-        Genre integer,
-        Isbn varchar(255),
-        Price float,
-        StockQuantity integer,
-        Title varchar(255),
-        primary key (Key)
-    )
+    select
+        au1_0.Key,
+        au1_0.Password,
+        au1_0.Role,
+        au1_0.UserEmail,
+        au1_0.UserName,
+        au1_0.IsActive,
+        au1_0.Wallet 
+    from
+        appUsers au1_0 
+    where
+        au1_0.UserEmail=?
 Hibernate: 
     select
-        au1_0.Key,
-        au1_0.Password,
-        au1_0.Role,
-        au1_0.UserEmail,
-        au1_0.UserName,
-        au1_0.IsActive,
-        au1_0.Wallet 
+        b1_0.Key,
+        b1_0.Author,
+        b1_0.Description,
+        b1_0.Genre,
+        b1_0.Isbn,
+        b1_0.Price,
+        r1_0.BookKey,
+        r1_0.Key,
+        r1_0.Description,
+        r1_0.ReviewDate,
+        r1_0.Score,
+        r1_0.UserKey,
+        b1_0.StockQuantity,
+        b1_0.Title 
     from
-        appUsers au1_0 
+        books b1_0 
+    left join
+        bookReviews r1_0 
+            on b1_0.Key=r1_0.BookKey 
     where
-        au1_0.UserEmail=?
-]]></system-out>
-  </testcase>
-  <testcase name="testAuthorizeValid(String, String, boolean, boolean)[2]" classname="demo.mowed.services.AuthServiceTest" time="0.002">
-    <system-out><![CDATA[Hibernate: 
-    select
-        au1_0.Key,
-        au1_0.Password,
-        au1_0.Role,
-        au1_0.UserEmail,
-        au1_0.UserName,
-        au1_0.IsActive,
-        au1_0.Wallet 
-    from
-        appUsers au1_0 
-    where
-        au1_0.UserEmail=?
-]]></system-out>
-  </testcase>
-  <testcase name="testAuthorizeValid(String, String, boolean, boolean)[3]" classname="demo.mowed.services.AuthServiceTest" time="0.002">
-    <system-out><![CDATA[Hibernate: 
-    select
-        au1_0.Key,
-        au1_0.Password,
-        au1_0.Role,
-        au1_0.UserEmail,
-        au1_0.UserName,
-        au1_0.IsActive,
-        au1_0.Wallet 
-    from
-        appUsers au1_0 
-    where
-        au1_0.UserEmail=?
-]]></system-out>
-  </testcase>
-  <testcase name="testAuthorizeInvalid(String, String, String)[1]" classname="demo.mowed.services.AuthServiceTest" time="0.004">
-    <system-out><![CDATA[Hibernate: 
-    select
-        au1_0.Key,
-        au1_0.Password,
-        au1_0.Role,
-        au1_0.UserEmail,
-        au1_0.UserName,
-        au1_0.IsActive,
-        au1_0.Wallet 
-    from
-        appUsers au1_0 
-    where
-        au1_0.UserEmail=?
-]]></system-out>
-  </testcase>
-  <testcase name="testAuthorizeInvalid(String, String, String)[2]" classname="demo.mowed.services.AuthServiceTest" time="0.002">
-    <system-out><![CDATA[Hibernate: 
-    select
-        au1_0.Key,
-        au1_0.Password,
-        au1_0.Role,
-        au1_0.UserEmail,
-        au1_0.UserName,
-        au1_0.IsActive,
-        au1_0.Wallet 
-    from
-        appUsers au1_0 
-    where
-        au1_0.UserEmail=?
+        b1_0.Key=?
 ]]></system-out>
   </testcase>
 </testsuite>

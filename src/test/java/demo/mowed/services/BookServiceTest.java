@@ -33,5 +33,6 @@ class BookServiceTest {
         var observed = testObject.GetBook(bookRequest);
         // assert
         assertEquals("Where the Wild Things Are", observed.title());
+        assertEquals("Maurice Sendak", observed.author());
     }
 }

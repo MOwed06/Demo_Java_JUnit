@@ -10,6 +10,7 @@ C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\database\JpaUtil.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\interfaces\IAuthService.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\Main.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\AuthRequest.java
+C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\AuthResponse.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\BookAddUpdateDto.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\BookAddUpdateMessage.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\GetMessage.java
@@ -17,6 +18,7 @@ C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\MessageParser.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\MessageType.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\QueryParameters.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\messages\RequestMessage.java
-C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\models\AuthResponse.java
+C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\models\BookDetailsRecord.java
+C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\models\BookOverviewRecord.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\services\AuthService.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\services\BookService.java
