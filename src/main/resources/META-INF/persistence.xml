@@ -8,6 +8,8 @@
     <persistence-unit name="BooksPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>demo.mowed.database.Book</class>
+        <class>demo.mowed.database.BookReview</class>
+        <class>demo.mowed.database.AppUser</class>
         
         <properties>
             <!-- SQLite JDBC connection properties -->

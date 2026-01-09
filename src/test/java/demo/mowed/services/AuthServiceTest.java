@@ -1,5 +1,6 @@
 package demo.mowed.services;
 
+import demo.mowed.core.BookStoreException;
 import demo.mowed.messages.AuthRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,4 +34,19 @@ class AuthServiceTest {
         assertEquals(expectAdmin, observed.isAdmin());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "Some.Guy@test.com, N0tV3ryS3cret, 'No existing user'",
+            "Savannah.Tucker@demo.com, somePassword, 'Incorrect user password'"
+    })
+    void testAuthorizeInvalid(String userEmail, String password, String errorMessage) {
+        // arrange
+        var authRequest = new AuthRequest(userEmail, password);
+        // act
+        Exception ex = assertThrows(BookStoreException.class, () -> {
+            testObject.Authorize(authRequest);
+        });
+        // assert
+        assertTrue(ex.getMessage().contains(errorMessage));
+    }
 }
