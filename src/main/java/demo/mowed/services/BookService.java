@@ -29,12 +29,26 @@ public class BookService {
         }
     }
 
+    public AppUser getUser(String userEmail) {
+        try (EntityManager em = JpaUtil.getEntityManager()) {
+            TypedQuery<AppUser> query = em.createQuery(
+                    "SELECT u FROM AppUser u WHERE u.userEmail = :email",
+                    AppUser.class
+            );
+            query.setParameter("email", userEmail);
+            List<AppUser> results = query.getResultList();
+            return results.isEmpty() ? null : results.getFirst();
+        }
+    }
+
     // demo purposes only
     public static void main(String[] args) {
         try {
             var bookService = new BookService(null);
             var observed = bookService.findBookByKey(6);
             System.out.println(observed.getTitle());
+
+            System.out.println("Genre: " + observed.getGenre());
             System.out.println(observed.getReviews().size());
 
         } catch (Exception ex) {

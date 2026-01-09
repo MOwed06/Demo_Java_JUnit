@@ -12,7 +12,7 @@
 
     <Loggers>
         <!-- Set logging level for your package -->
-        <Logger name="demo.mowed" level="debug" additivity="false">
+        <Logger name="demo.mowed" level="warn" additivity="false">
             <AppenderRef ref="FileLogger"/>
         </Logger>
 

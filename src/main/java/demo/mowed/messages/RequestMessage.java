@@ -1,19 +1,18 @@
 package demo.mowed.messages;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import demo.mowed.models.AuthRequestDto;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestMessage {
     private MessageType messageType;
-    private AuthRequestDto authRequestDto;
+    private AuthRequest authRequest;
 
     public RequestMessage() {
     }
 
-    public RequestMessage(MessageType messageType, AuthRequestDto authRequestDto) {
+    public RequestMessage(MessageType messageType, AuthRequest authRequest) {
         this.messageType = messageType;
-        this.authRequestDto = authRequestDto;
+        this.authRequest = authRequest;
     }
 
     public MessageType getMessageType() {
@@ -24,11 +23,11 @@ public class RequestMessage {
         this.messageType = messageType;
     }
 
-    public AuthRequestDto getAuthRequestDto() {
-        return this.authRequestDto;
+    public AuthRequest getAuthRequestDto() {
+        return this.authRequest;
     }
 
-    public void setAuthRequestDto(AuthRequestDto value) {
-        this.authRequestDto = value;
+    public void setAuthRequestDto(AuthRequest value) {
+        this.authRequest = value;
     }
 }

@@ -1,16 +1,72 @@
 package demo.mowed.services;
 
-import demo.mowed.core.BookException;
+import demo.mowed.core.BookStoreException;
+import demo.mowed.database.AppUser;
+import demo.mowed.database.JpaUtil;
 import demo.mowed.interfaces.IAuthService;
-import demo.mowed.models.AuthRequestDto;
+import demo.mowed.messages.AuthRequest;
 import demo.mowed.models.AuthResponse;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public class AuthService implements IAuthService {
-    public AuthResponse Authorize(AuthRequestDto dto) {
-        if (dto.getUserId().equals("Fred"))
+
+    private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
+    private static final int ADMIN_ROLE = -1;
+    private static final int ACTIVE_STATUS = 1;
+
+    public AuthResponse Authorize(AuthRequest dto) {
+
+        var userEmail = dto.getUserId();
+        LOGGER.debug("AuthRequest, user: {}}", userEmail);
+
+        // confirm user exists in database
+        var appUser = getUser(userEmail);
+
+        if (appUser == null)
         {
-            throw new BookException("this is fred");
+            throw new BookStoreException("No existing user: " + userEmail);
         }
-        return new AuthResponse(true, true);
+
+        // confirm user password in db matches auth request
+        if (!appUser.getPassword().equals(dto.getPassword()))
+        {
+            throw  new BookStoreException("Incorrect user password");
+        }
+
+        // user exists, password matches
+        boolean isActive = appUser.getUserStatus() == ACTIVE_STATUS;
+        boolean isAdmin = appUser.getRole() == ADMIN_ROLE;
+        return new AuthResponse(isActive, isAdmin);
+    }
+
+    private AppUser getUser(String userEmail) {
+        try (EntityManager em = JpaUtil.getEntityManager()) {
+            TypedQuery<AppUser> query = em.createQuery(
+                    "SELECT u FROM AppUser u WHERE u.userEmail = :email",
+                    AppUser.class
+            );
+            query.setParameter("email", userEmail);
+            List<AppUser> results = query.getResultList();
+            return results.isEmpty() ? null : results.getFirst();
+        }
+    }
+
+    // demo purposes only
+    public static void main(String[] args) {
+        try {
+            var authService = new AuthService();
+            var authRequest = new AuthRequest("Bruce.Wayne@demo.com", "N0tV3ryS3cret");
+            var observed = authService.Authorize(authRequest);
+            System.out.println(observed);
+
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

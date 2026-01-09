@@ -1,4 +1,4 @@
-package demo.mowed.models;
+package demo.mowed.messages;
 
 public class QueryParameters {
     private Integer queryInt;

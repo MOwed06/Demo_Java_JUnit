@@ -11,7 +11,7 @@ public class ApplicationRunner {
             case "Q":
                 return new ApplicationResponse("done", false);
             case "B":
-                throw new BookException("this is iffy");
+                throw new BookStoreException("this is iffy");
             default:
                 return new ApplicationResponse("happy", true);
         }

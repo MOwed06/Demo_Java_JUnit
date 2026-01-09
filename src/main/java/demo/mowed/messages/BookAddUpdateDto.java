@@ -1,4 +1,4 @@
-package demo.mowed.models;
+package demo.mowed.messages;
 
 import demo.mowed.core.Genre;
 
