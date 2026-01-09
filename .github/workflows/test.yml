@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
+          # Using Java 21 (LTS) instead of Java 25 for GitHub Actions compatibility
+          # Java 25 is not yet available in stable GitHub Actions runners
           java-version: '21'
           cache: 'maven'
       
