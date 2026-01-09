@@ -1,0 +1,37 @@
+package demo.mowed;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import demo.mowed.core.ApplicationRunner;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import java.util.Scanner;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Main {
+
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Scanner SCANNER = new Scanner(System.in);
+
+    static void main() {
+        try {
+            LOGGER.info("Starting");
+            ApplicationRunner appRunner = new ApplicationRunner();
+            boolean isActive = false;
+            do {
+                System.out.printf("%nEnter message data file (or 'Q' to quit): ");
+                String userEntry = SCANNER.nextLine();
+                var response = appRunner.ProcessRequest(userEntry);
+                isActive = response.isActive();
+                System.out.println(response.statusMessage());
+            } while(isActive);
+        } catch (Exception ex) {
+            System.out.printf("%nSomething bad happened");
+            LOGGER.error(ex);
+        } finally {
+            System.out.printf("%nApplication ended");
+            LOGGER.info("Ending");
+        }
+    }
+}

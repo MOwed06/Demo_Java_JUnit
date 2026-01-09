@@ -1,0 +1,10 @@
+{
+  "messageType": "GET_BOOKS_BY_AUTHOR",
+  "authRequestDto": {
+    "userId": "Savannah.Tucker@demo.com",
+    "password": "N0tV3ryS3cret"
+  },
+  "queryParameters": {
+    "queryString": "Collins"
+  }
+}
