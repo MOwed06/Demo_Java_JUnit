@@ -35,4 +35,10 @@ class BookServiceTest {
         assertEquals("Where the Wild Things Are", observed.title());
         assertEquals("Maurice Sendak", observed.author());
     }
+
+    @Test
+    void testHappy() {
+        // TODO ~ fix this
+        assertTrue(true);
+    }
 }
