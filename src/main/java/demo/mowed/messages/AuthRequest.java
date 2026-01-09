@@ -1,13 +1,13 @@
-package demo.mowed.models;
+package demo.mowed.messages;
 
-public class AuthRequestDto {
+public class AuthRequest {
     private String userId;
     private String password;
 
-    public AuthRequestDto() {
+    public AuthRequest() {
     }
 
-    public AuthRequestDto(String userId, String password){
+    public AuthRequest(String userId, String password){
         this.userId = userId;
         this.password = password;
     }

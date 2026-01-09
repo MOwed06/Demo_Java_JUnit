@@ -1,16 +1,13 @@
 package demo.mowed.messages;
 
-import demo.mowed.models.AuthRequestDto;
-import demo.mowed.models.QueryParameters;
-
 public class GetMessage extends RequestMessage {
     private QueryParameters queryParameters;
 
     public GetMessage() {
     }
 
-    public GetMessage(MessageType messageType, AuthRequestDto authRequestDto, QueryParameters requestDto) {
-        super(messageType, authRequestDto);
+    public GetMessage(MessageType messageType, AuthRequest authRequest, QueryParameters requestDto) {
+        super(messageType, authRequest);
         this.queryParameters = requestDto;
     }
 
