@@ -5,7 +5,7 @@ import demo.mowed.database.AppUser;
 import demo.mowed.database.JpaUtil;
 import demo.mowed.interfaces.IAuthService;
 import demo.mowed.messages.AuthRequest;
-import demo.mowed.models.AuthResponse;
+import demo.mowed.messages.AuthResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +19,12 @@ public class AuthService implements IAuthService {
     private static final int ADMIN_ROLE = -1;
     private static final int ACTIVE_STATUS = 1;
 
+    /**
+     * Confirm user email and password match existing user
+     * @param dto authorization request
+     * @return authorization response
+     * @throws BookStoreException if user not found or wrong password
+     */
     public AuthResponse Authorize(AuthRequest dto) {
 
         var userEmail = dto.getUserId();

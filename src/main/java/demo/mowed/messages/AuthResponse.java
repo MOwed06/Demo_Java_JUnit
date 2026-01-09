@@ -1,4 +1,4 @@
-package demo.mowed.models;
+package demo.mowed.messages;
 
 public record AuthResponse(boolean isActive, boolean isAdmin) {
 
