@@ -1,0 +1,35 @@
+name: Run JUnit Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          # Using Java 21 (LTS) instead of Java 25 for GitHub Actions compatibility
+          # Java 25 is not yet available in stable GitHub Actions runners
+          java-version: '21'
+          cache: 'maven'
+      
+      - name: Build with Maven
+        run: mvn clean compile
+      
+      - name: Run tests
+        run: mvn test
+      
+      - name: Generate test report
+        if: always()
+        run: mvn surefire-report:report-only
