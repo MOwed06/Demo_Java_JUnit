@@ -29,3 +29,6 @@ replay_pid*
 
 # vscode settings
 .vscode/
+
+# Maven build artifacts
+target/
