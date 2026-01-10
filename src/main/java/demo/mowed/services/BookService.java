@@ -36,8 +36,7 @@ public class BookService {
             return null;
         }
 
-        // TODO ~ fix this
-        Float rating = 1.1f;
+        Float rating = calculateRating(matchedBook.getReviews());
         boolean isAvailable = matchedBook.getStockQuantity() > 0;
         Genre bookGenre = Genre.fromCode(matchedBook.getGenre());
         int reviewCount = matchedBook.getReviews().size();
@@ -52,6 +51,19 @@ public class BookService {
                 isAvailable,
                 rating,
                 reviewCount);
+    }
+
+    private Float calculateRating(List<BookReview> reviews) {
+        if (reviews.isEmpty()) {
+            return null;
+        }
+
+        var average = reviews.stream()
+                .mapToInt(BookReview::getScore)
+                .average()
+                .orElse(0.0);
+
+        return (float)average;
     }
 
 
@@ -79,7 +91,7 @@ public class BookService {
             var bookRequest = new GetMessage(
                     MessageType.GET_BOOK,
                     new AuthRequest("Savannah.Tucker@demo.com", "N0tV3ryS3cret"),
-                    new QueryParameters(2)
+                    new QueryParameters(6)
             );
 
             var observed = bookService.GetBook(bookRequest);
