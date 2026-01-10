@@ -33,6 +33,11 @@ public class AuthService implements IAuthService {
         // confirm user exists in database
         var appUser = getUser(userEmail);
 
+        // check for null or empty userEmail
+        if (userEmail == null || userEmail.isEmpty()) {
+            throw new BookStoreException("Invalid user email");
+        }
+
         if (appUser == null)
         {
             throw new BookStoreException("No existing user: " + userEmail);

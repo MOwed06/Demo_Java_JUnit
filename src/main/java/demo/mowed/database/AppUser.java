@@ -3,7 +3,7 @@ package demo.mowed.database;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "appUsers")
+@Table(name = "AppUsers")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
