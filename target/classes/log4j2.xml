@@ -12,7 +12,10 @@
 
     <Loggers>
         <!-- Set logging level for your package -->
-        <Logger name="demo.mowed" level="warn" additivity="false">
+        <Logger name="demo.mowed" level="info" additivity="false">
+            <AppenderRef ref="FileLogger"/>
+        </Logger>
+        <Logger name="org.hibernate" level="error" additivity="false">
             <AppenderRef ref="FileLogger"/>
         </Logger>
 

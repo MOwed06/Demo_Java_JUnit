@@ -3,6 +3,7 @@ package demo.mowed.services;
 import demo.mowed.core.BookStoreException;
 import demo.mowed.messages.AuthRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -48,5 +49,16 @@ class AuthServiceTest {
         });
         // assert
         assertTrue(ex.getMessage().contains(errorMessage));
+    }
+
+    @Test
+    void testAuthorizeInvalidEmptyEmail() {
+        // arrange
+        var authRequest = new AuthRequest(null, "N0tV3ryS3cret");
+        Exception ex = assertThrows(BookStoreException.class, () -> {
+            testObject.Authorize(authRequest);
+        });
+        // assert
+        assertTrue(ex.getMessage().contains("Invalid user email"));
     }
 }
