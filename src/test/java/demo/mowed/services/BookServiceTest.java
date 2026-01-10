@@ -85,11 +85,11 @@ class BookServiceTest {
     @Test
     void testGetBookRatingNull() {
         // arrange
-        final int STINKY_CHEESE_BOOk_KEY = 2;
+        final int STINKY_CHEESE_BOOK_KEY = 2;
         var bookRequest = new GetMessage(
                 MessageType.GET_BOOK,
                 new AuthRequest("someuser", "password"),
-                new QueryParameters(STINKY_CHEESE_BOOk_KEY)
+                new QueryParameters(STINKY_CHEESE_BOOK_KEY)
         );
         // act
         var observed = testObject.getBook(bookRequest);
