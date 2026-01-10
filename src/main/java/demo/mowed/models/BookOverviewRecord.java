@@ -22,6 +22,15 @@ public record BookOverviewRecord(int key, String title, String author, Genre gen
     }
 
     @Override
+    public int hashCode() {
+        int result = Integer.hashCode(key);
+        result = 31 * result + title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + Integer.hashCode(genre.getCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         return String.format("Key: %d, Title: %s, Author: %s, Genre: %s",
                 key,
