@@ -3,12 +3,15 @@ package demo.mowed.services;
 import demo.mowed.core.Genre;
 import demo.mowed.interfaces.IAuthService;
 import demo.mowed.messages.*;
+import demo.mowed.models.BookOverviewRecord;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.NullSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,6 +22,9 @@ class BookServiceTest {
     private static IAuthService authService;
     private BookService testObject;
 
+    // collection of pre-existing books in BigBooks.db
+    private static List<BookOverviewRecord> historyBooks;
+
     @BeforeAll
     static void setupOnce(){
         // set authService mock to always respond with valid user
@@ -26,6 +32,11 @@ class BookServiceTest {
         authService = mock(IAuthService.class);
         when(authService.Authorize(any(AuthRequest.class)))
                 .thenReturn(new AuthResponse(true, true));
+
+        historyBooks = new ArrayList<>();
+        historyBooks.add(new BookOverviewRecord(4, "Citizen Soldiers", "Stephen Ambrose", Genre.HISTORY));
+        historyBooks.add(new BookOverviewRecord(13, "The American Revolution: An Intimate History", "Geoffrey C. Ward", Genre.HISTORY));
+        historyBooks.add(new BookOverviewRecord(32, "A Prayer In Spring", "Dylan Vickers", Genre.HISTORY));
     }
 
     @BeforeEach
@@ -43,7 +54,7 @@ class BookServiceTest {
                 new QueryParameters(WILD_THINGS_BOOK_KEY)
         );
         // act
-        var observed = testObject.GetBook(bookRequest);
+        var observed = testObject.getBook(bookRequest);
         // assert
         assertAll("book properties",
                 () -> assertEquals("Where the Wild Things Are", observed.title()),
@@ -66,7 +77,7 @@ class BookServiceTest {
                 new QueryParameters(bookKey)
         );
         // act
-        var observed = testObject.GetBook(bookRequest);
+        var observed = testObject.getBook(bookRequest);
         // assert
         assertEquals(expectedRating, observed.rating());
     }
@@ -81,8 +92,28 @@ class BookServiceTest {
                 new QueryParameters(STINKY_CHEESE_BOOk_KEY)
         );
         // act
-        var observed = testObject.GetBook(bookRequest);
+        var observed = testObject.getBook(bookRequest);
         // assert
         assertNull(observed.rating());
+    }
+
+    @Test
+    void testGetBooksByGenre() {
+        // arrange
+        var bookRequest = new GetMessage(
+                MessageType.GET_BOOKS_BY_GENRE,
+                new AuthRequest("someuser", "password"),
+                new QueryParameters("history")
+        );
+        // act
+        var observed = testObject.getBooksByGenre(bookRequest);
+        // assert
+        // the returned set of books may be larger that the pre-condition historyBooks
+        // confirm expected historyBooks as a subset
+        assertTrue(observed.containsAll(historyBooks));
+        // confirm all return books are History genre
+        assertTrue(observed
+                .stream()
+                .allMatch(b -> b.genre() == Genre.HISTORY));
     }
 }

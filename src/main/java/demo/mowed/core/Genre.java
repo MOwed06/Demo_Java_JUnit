@@ -17,6 +17,10 @@ public enum Genre {
         this.code = code;
     }
 
+    public int getCode(){
+        return code;
+    }
+
     public static Genre fromCode(int code) {
         for (Genre g : values()){
             // cycle through each enum, check for match
@@ -25,5 +29,23 @@ public enum Genre {
             }
         }
         throw new IllegalArgumentException("Unknown genre: " + code);
+    }
+
+    public static Genre fromString(String value) {
+        try {
+            return Genre.valueOf(value.toUpperCase());
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Invalid genre specification: " + value);
+        }
+    }
+
+    // demo use only
+    public static void main(String[] args) {
+        try {
+            Genre match = Genre.fromString("history");
+            System.out.println(match);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

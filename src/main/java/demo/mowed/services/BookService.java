@@ -5,14 +5,18 @@ import demo.mowed.database.*;
 import demo.mowed.interfaces.IAuthService;
 import demo.mowed.messages.*;
 import demo.mowed.models.BookDetailsRecord;
+import demo.mowed.models.BookOverviewRecord;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/*
+authorization failure will throw exception and force failure
+note that inActive user may view (but not purchase) books
+ */
 public class BookService {
     private final IAuthService authService;
 
@@ -22,13 +26,17 @@ public class BookService {
         this.authService = authService;
     }
 
-    public BookDetailsRecord GetBook(GetMessage request) {
-        // authorization failure will throw exception and force failure
-        // note that inActive user may view (but not purchase) books
-        this.authService.Authorize(request.getAuthRequestDto());
-
+    /*
+    Retrieve book details for specific book
+    Parallel to BooksController.cs, GetBook()
+     */
+    public BookDetailsRecord getBook(GetMessage request) {
         var requestKey = request.getQueryParameters().getQueryInt();
-        LOGGER.debug("RequestedKey: {}", requestKey);
+        LOGGER.debug("Message: {}, RequestedKey: {}",
+                request.getMessageType(),
+                requestKey);
+
+        this.authService.Authorize(request.getAuthRequestDto());
 
         var matchedBook = findBookByKey(requestKey);
         if (matchedBook == null) {
@@ -53,22 +61,57 @@ public class BookService {
                 reviewCount);
     }
 
+    /*
+    Retrieve overview of books by genre
+    Parallel to BooksController.cs, GetBooksByGenre()
+     */
+    public List<BookOverviewRecord> getBooksByGenre(GetMessage request) {
+        var genreName = request.getQueryParameters().getQueryString();
+        LOGGER.debug("Message: {}, RequestedKey: {}",
+                request.getMessageType(),
+                genreName);
+
+        this.authService.Authorize(request.getAuthRequestDto());
+
+        Genre searchGenre = Genre.fromString(genreName);
+
+        // filter book collection by genre
+        List<Book> matchedBooks = findAllBooks()
+                .stream()
+                .filter(b -> b.getGenre() == searchGenre.getCode())
+                .toList();
+
+        // transform from Book entity to BookOverviewRecord
+        return matchedBooks
+                .stream()
+                .map(b -> new BookOverviewRecord(
+                        b.getKey(),
+                        b.getTitle(),
+                        b.getAuthor(),
+                        searchGenre
+                ))
+                .toList();
+    }
+
+    /*
+    Calculate average book review rating
+    Return null if no book review exists
+     */
     private Float calculateRating(List<BookReview> reviews) {
         if (reviews.isEmpty()) {
+            // no reviews exist
             return null;
         }
 
-        var average = reviews.stream()
+        var averageScore = reviews.stream()
                 .mapToInt(BookReview::getScore)
                 .average()
                 .orElse(0.0);
-
-        return (float)average;
+        return (float)averageScore;
     }
 
-
     /*
-    Retrieve individual book and child book reviews
+    Retrieve individual book and associated child book reviews
     */
     private Book findBookByKey(int key) {
         try (EntityManager em = JpaUtil.getEntityManager()) {
@@ -82,6 +125,13 @@ public class BookService {
         }
     }
 
+    private List<Book> findAllBooks() {
+        try (EntityManager em = JpaUtil.getEntityManager()) {
+            TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b", Book.class);
+            return query.getResultList();
+        }
+    }
+
     // demo purposes only
     public static void main(String[] args) {
         try {
@@ -89,13 +139,24 @@ public class BookService {
             var bookService = new BookService(authService);
 
             var bookRequest = new GetMessage(
-                    MessageType.GET_BOOK,
+                    MessageType.GET_BOOKS_BY_GENRE,
                     new AuthRequest("Savannah.Tucker@demo.com", "N0tV3ryS3cret"),
-                    new QueryParameters(6)
+                    new QueryParameters("history")
             );
 
-            var observed = bookService.GetBook(bookRequest);
-            System.out.println(observed);
+            var observed = bookService.getBooksByGenre(bookRequest);
+            for (var item : observed) {
+                System.out.println(item.toString());
+            }
+
+//            var bookRequest = new GetMessage(
+//                    MessageType.GET_BOOK,
+//                    new AuthRequest("Savannah.Tucker@demo.com", "N0tV3ryS3cret"),
+//                    new QueryParameters(6)
+//            );
+//
+//            var observed = bookService.getBook(bookRequest);
+//            System.out.println(observed);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
