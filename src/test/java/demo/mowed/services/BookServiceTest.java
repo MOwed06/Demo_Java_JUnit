@@ -108,7 +108,7 @@ class BookServiceTest {
         // act
         var observed = testObject.getBooksByGenre(bookRequest);
         // assert
-        // the returned set of books may be larger that the pre-condition historyBooks
+        // the returned set of books may be larger than the pre-condition historyBooks
         // confirm expected historyBooks as a subset
         assertTrue(observed.containsAll(historyBooks));
         // confirm all return books are History genre
