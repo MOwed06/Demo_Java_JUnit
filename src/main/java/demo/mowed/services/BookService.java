@@ -67,7 +67,7 @@ public class BookService {
      */
     public List<BookOverviewRecord> getBooksByGenre(GetMessage request) {
         var genreName = request.getQueryParameters().getQueryString();
-        LOGGER.debug("Message: {}, RequestedKey: {}",
+        LOGGER.debug("Message: {}, RequestedGenre: {}",
                 request.getMessageType(),
                 genreName);
 
