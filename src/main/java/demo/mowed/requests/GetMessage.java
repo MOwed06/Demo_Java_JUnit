@@ -1,4 +1,4 @@
-package demo.mowed.messages;
+package demo.mowed.requests;
 
 public class GetMessage extends RequestMessage {
     private QueryParameters queryParameters;

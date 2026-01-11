@@ -1,7 +1,7 @@
 package demo.mowed.services;
 
 import demo.mowed.core.BookStoreException;
-import demo.mowed.messages.AuthRequest;
+import demo.mowed.requests.AuthRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

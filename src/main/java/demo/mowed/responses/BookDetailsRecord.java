@@ -1,10 +1,9 @@
-package demo.mowed.models;
+package demo.mowed.responses;
 
 import demo.mowed.core.Genre;
 
 /**
- * A detailed view of a books info
- * loosely equivalent to BigBooks.API, BookDetailsDto.cs
+ * A detailed view of a book's info
  */
 public record BookDetailsRecord(int key,
                                 String title,
@@ -19,11 +18,14 @@ public record BookDetailsRecord(int key,
 
     @Override
     public String toString() {
-        return String.format("Key: %d, Title: %s, Author: %s, Genre: %s, Price: %f",
+        return String.format("Key: %d, Title: %s, Author: %s, Genre: %s, Price: %f, Available: %b, Rating: %f, Reviews: %d",
                 this.key,
                 this.title,
                 this.author,
                 this.genre().toString(),
-                this.price);
+                this.price,
+                this.isAvailable,
+                this.rating,
+                this.reviewCount);
     }
 }

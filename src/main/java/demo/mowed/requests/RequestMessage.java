@@ -1,4 +1,4 @@
-package demo.mowed.messages;
+package demo.mowed.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

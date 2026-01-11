@@ -1,7 +1,7 @@
 package demo.mowed.interfaces;
 
-import demo.mowed.messages.AuthRequest;
-import demo.mowed.messages.AuthResponse;
+import demo.mowed.requests.AuthRequest;
+import demo.mowed.responses.AuthResponse;
 
 public interface IAuthService {
     AuthResponse Authorize(AuthRequest dto);

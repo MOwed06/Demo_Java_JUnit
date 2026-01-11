@@ -1,11 +1,10 @@
-package demo.mowed.models;
+package demo.mowed.responses;
 
 import demo.mowed.core.Genre;
 
 /**
  * A summary view of a books info
  * (typically returned as an element within a list)
- * loosely equivalent to BigBooks.API, BookOverviewDto.cs
  */
 public record BookOverviewRecord(int key, String title, String author, Genre genre) {
 
@@ -23,11 +22,7 @@ public record BookOverviewRecord(int key, String title, String author, Genre gen
 
     @Override
     public int hashCode() {
-        int result = Integer.hashCode(key);
-        result = 31 * result + title.hashCode();
-        result = 31 * result + author.hashCode();
-        result = 31 * result + Integer.hashCode(genre.getCode());
-        return result;
+        return java.util.Objects.hash(key, title, author, genre);
     }
 
     @Override
