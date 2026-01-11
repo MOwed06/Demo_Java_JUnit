@@ -18,14 +18,14 @@ public class Main {
         try {
             LOGGER.info("Starting");
             ApplicationRunner appRunner = new ApplicationRunner();
-            boolean isActive = false;
+            boolean continueRunning = false;
             do {
                 System.out.printf("%nEnter message data file (or 'Q' to quit): ");
                 String userEntry = SCANNER.nextLine();
-                var response = appRunner.ProcessRequest(userEntry);
-                isActive = response.isActive();
+                var response = appRunner.processRequest(userEntry);
+                continueRunning = response.remainActive();
                 System.out.println(response.statusMessage());
-            } while(isActive);
+            } while(continueRunning);
         } catch (Exception ex) {
             System.out.printf("%nSomething bad happened");
             LOGGER.error(ex);

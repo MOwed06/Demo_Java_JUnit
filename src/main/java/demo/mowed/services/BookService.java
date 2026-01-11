@@ -3,9 +3,10 @@ package demo.mowed.services;
 import demo.mowed.core.Genre;
 import demo.mowed.database.*;
 import demo.mowed.interfaces.IAuthService;
-import demo.mowed.messages.*;
-import demo.mowed.models.BookDetailsRecord;
-import demo.mowed.models.BookOverviewRecord;
+import demo.mowed.interfaces.IBookService;
+import demo.mowed.requests.*;
+import demo.mowed.responses.BookDetailsRecord;
+import demo.mowed.responses.BookOverviewRecord;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,7 @@ import java.util.List;
 authorization failure will throw exception and force failure
 note that inActive user may view (but not purchase) books
  */
-public class BookService {
+public class BookService implements IBookService {
     private final IAuthService authService;
 
     private static final Logger LOGGER = LogManager.getLogger(BookService.class);

@@ -1,4 +1,4 @@
-package demo.mowed.messages;
+package demo.mowed.requests;
 
 public class BookAddUpdateMessage extends RequestMessage {
     private BookAddUpdateDto addUpdateDto;

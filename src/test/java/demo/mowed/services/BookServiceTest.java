@@ -2,8 +2,9 @@ package demo.mowed.services;
 
 import demo.mowed.core.Genre;
 import demo.mowed.interfaces.IAuthService;
-import demo.mowed.messages.*;
-import demo.mowed.models.BookOverviewRecord;
+import demo.mowed.requests.*;
+import demo.mowed.responses.AuthResponse;
+import demo.mowed.responses.BookOverviewRecord;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
