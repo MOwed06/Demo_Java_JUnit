@@ -1,5 +1,13 @@
 package demo.mowed.requests;
 
+/*
+GetMessage is generalized object to model get requests of _any_ flavor
+Some messages will possess queryParameters with int value, others with String, some a null queryParameter
+For example:
+- GET_AUTHOR_LIST will have queryParameters = null
+- GET_BOOK will have int queryParameter, ex. https://localhost:7119/api/books/2
+- GET_BOOKS_BY_AUTHOR will have String queryParameter, ex. https://localhost:7119/api/books/author?name=collins
+ */
 public class GetMessage extends RequestMessage {
     private QueryParameters queryParameters;
 

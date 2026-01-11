@@ -4,11 +4,21 @@ This project is sandbox for demonstrating Java and JUnit. The Java application i
 
 This project is a first step toward an eventual Java Web API application.  
 
-- messages
-- responses
+Notes in progress ...
+- message files in data directory
+- design structure
+  - requests package = objects sent to app (equivalent to incoming API message)
+  - responses package = objects returned from app
 - run from command line
-
+  - name json file
 - log files
+- add operations ... service will validate object before add, send error back to user if necessary
+- some note about adding to database
+
+Still to do
+- add UserService
+- add TransactionService
+
 
 <br>
 

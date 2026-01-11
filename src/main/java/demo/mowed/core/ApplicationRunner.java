@@ -21,9 +21,19 @@ public class ApplicationRunner {
     private static final Logger LOGGER = LogManager.getLogger(ApplicationRunner.class);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    /*
+    Standard constructor instantiates "normal" service objects
+     */
     public ApplicationRunner() {
         this.authService = new AuthService();
         this.bookService = new BookService(this.authService);
+    }
+
+    /*
+    This constructor is for unit testing
+     */
+    public ApplicationRunner(IBookService bookService){
+        this.bookService = bookService;
     }
 
     public ApplicationResponse processRequest(String userEntry) {
