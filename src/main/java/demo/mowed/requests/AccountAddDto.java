@@ -26,6 +26,8 @@ public class AccountAddDto {
     @Setter
     private String userPassword;
 
+    // there is a curious interaction between jackson and lombak
+    // which causes the json file object "admin" to map to "isAdmin" field
     @Getter
     @Setter
     private boolean isAdmin;
