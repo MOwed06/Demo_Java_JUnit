@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Transactions")
@@ -19,7 +20,7 @@ public class AccountTransaction {
     @Column(name = "TransactionDate")
     @Getter
     @Setter
-    private LocalDate transactionDate;
+    private LocalDateTime transactionDateTime;
 
     @Column(name = "TransactionAmount")
     @Getter

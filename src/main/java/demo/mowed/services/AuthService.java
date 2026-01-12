@@ -1,7 +1,8 @@
 package demo.mowed.services;
 
+import demo.mowed.core.ApplicationConstants;
 import demo.mowed.core.BookStoreException;
-import demo.mowed.database.AppUser;
+import demo.mowed.database.Account;
 import demo.mowed.database.JpaUtil;
 import demo.mowed.interfaces.IAuthService;
 import demo.mowed.requests.AuthRequest;
@@ -22,8 +23,7 @@ Only user with isAdmin true may add/modify users and books.
 public class AuthService implements IAuthService {
 
     private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
-    private static final int ADMIN_ROLE = -1;
-    private static final int ACTIVE_STATUS = 1;
+
 
     /**
      * Confirm user email and password match existing user
@@ -56,19 +56,19 @@ public class AuthService implements IAuthService {
         }
 
         // user exists, password matches
-        boolean isActive = appUser.getUserStatus() == ACTIVE_STATUS;
-        boolean isAdmin = appUser.getRole() == ADMIN_ROLE;
+        boolean isActive = appUser.getUserStatus() == ApplicationConstants.ACTIVE_STATUS;
+        boolean isAdmin = appUser.getRole() == ApplicationConstants.ADMIN_ROLE;
         return new AuthResponse(isActive, isAdmin);
     }
 
-    private AppUser getUser(String userEmail) {
+    private Account getUser(String userEmail) {
         try (EntityManager em = JpaUtil.getEntityManager()) {
-            TypedQuery<AppUser> query = em.createQuery(
-                    "SELECT u FROM AppUser u WHERE u.userEmail = :email",
-                    AppUser.class
+            TypedQuery<Account> query = em.createQuery(
+                    "SELECT u FROM Account u WHERE u.userEmail = :email",
+                    Account.class
             );
             query.setParameter("email", userEmail);
-            List<AppUser> results = query.getResultList();
+            List<Account> results = query.getResultList();
             return results.isEmpty() ? null : results.getFirst();
         }
     }

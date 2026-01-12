@@ -9,7 +9,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>demo.mowed.database.Book</class>
         <class>demo.mowed.database.BookReview</class>
-        <class>demo.mowed.database.AppUser</class>
+        <class>demo.mowed.database.Account</class>
         
         <properties>
             <!-- SQLite JDBC connection properties -->

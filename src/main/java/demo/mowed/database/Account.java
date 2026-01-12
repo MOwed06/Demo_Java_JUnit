@@ -3,11 +3,14 @@ package demo.mowed.database;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "AppUsers")
 @Access(AccessType.FIELD)
 @NoArgsConstructor
-public class AppUser {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Key")
@@ -43,4 +46,9 @@ public class AppUser {
     @Getter
     @Setter
     private int userStatus;
+
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "userKey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountTransaction> transactions = new ArrayList<>();
 }
