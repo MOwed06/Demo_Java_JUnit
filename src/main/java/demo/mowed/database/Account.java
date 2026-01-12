@@ -30,7 +30,7 @@ public class Account {
     @Column(name = "UserName")
     @Getter
     @Setter
-    private String userName;
+    private String userName = "Not Specified"; // user name exists in db table, but is unsed by this application
 ;
     @Column(name = "Password")
     @Getter
@@ -52,9 +52,8 @@ public class Account {
     @OneToMany(mappedBy = "userKey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountTransaction> transactions = new ArrayList<>();
 
-    public Account(String userEmail, String userName, String password, int role, float wallet, int userStatus) {
+    public Account(String userEmail, String password, int role, float wallet, int userStatus) {
         this.userEmail = userEmail;
-        this.userName = userName;
         this.password = password;
         this.role = role;
         this.wallet = wallet;

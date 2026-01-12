@@ -5,7 +5,12 @@ import demo.mowed.utils.TimeHelper;
 
 import java.time.LocalDateTime;
 
-public record TransactionOverviewRecord(int key, LocalDateTime transactionDateTime, TransactionType transactionType, Float transactionAmount, Integer bookKey, Integer purchaseQuantity) {
+public record TransactionOverviewRecord(int key,
+                                        LocalDateTime transactionDateTime,
+                                        TransactionType transactionType,
+                                        Float transactionAmount,
+                                        Integer bookKey,
+                                        Integer purchaseQuantity) {
 
     @Override
     public String toString() {
@@ -24,5 +29,24 @@ public record TransactionOverviewRecord(int key, LocalDateTime transactionDateTi
                 transactionAmount,
                 bookKey,
                 purchaseQuantity);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof  TransactionOverviewRecord){
+            TransactionOverviewRecord compare = (TransactionOverviewRecord)obj;
+            return (compare.key == this.key)
+                && compare.transactionDateTime.equals(this.transactionDateTime)
+                && compare.transactionType.equals(this.transactionType)
+                && compare.transactionAmount.equals(this.transactionAmount)
+                && compare.bookKey.equals(this.bookKey)
+                && compare.purchaseQuantity.equals(this.purchaseQuantity);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(key, transactionDateTime, transactionType, transactionAmount, bookKey, purchaseQuantity);
     }
 }

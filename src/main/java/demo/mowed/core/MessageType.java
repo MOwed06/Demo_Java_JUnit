@@ -1,4 +1,4 @@
-package demo.mowed.requests;
+package demo.mowed.core;
 
 
 /*
@@ -14,7 +14,7 @@ public enum MessageType {
     POST_ADD_BOOK, // ex: https://localhost:7119/api/books
     POST_ADD_BOOK_REVIEW, // ex: https://localhost:7119/api/books/5/reviews
     PATCH_UPDATE_BOOK, // ex: https://localhost:7119/api/books/7,
-    GET_ACCOUNT_INFO, // ex: https://localhost:7119/api/accounts/22
+    GET_ACCOUNT, // ex: https://localhost:7119/api/accounts/22
     GET_ACCOUNT_LIST, // ex: https://localhost:7119/api/accounts/list
     GET_CURRENT_USER, // ex: https://localhost:7119/api/users
     POST_ADD_ACCOUNT, // ex: https://localhost:7119/api/accounts

@@ -6,7 +6,8 @@ import demo.mowed.core.TransactionType;
 import demo.mowed.database.Account;
 import demo.mowed.database.AccountTransaction;
 import demo.mowed.database.JpaUtil;
-import demo.mowed.interfaces.IAuthService;
+import demo.mowed.interfaces.IAccountService;
+import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AccountDetailsRecord;
 import demo.mowed.responses.TransactionOverviewRecord;
@@ -17,15 +18,37 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
-public class AccountService {
-    private IAuthService authService;
+/*
+Methods named "get" and "add" have public scope.
+Methods named "find", "create", have private scope and act directly on the db.
+ */
+public class AccountService implements IAccountService {
+    private IAuthorizationService authService;
 
     private static final Logger LOGGER = LogManager.getLogger(AccountService.class);
 
-    public AccountService(IAuthService authService) {
+    public AccountService(IAuthorizationService authService) {
         this.authService = authService;
     }
 
+    @Override
+    public AccountDetailsRecord getAccount(GetMessage request) {
+        var requestKey = request.getQueryParameters().getQueryInt();
+        LOGGER.debug("Message: {}, RequestedKey: {}",
+                request.getMessageType(),
+                requestKey);
+
+        var authResponse = this.authService.Authorize(request.getAuthRequest());
+
+        // only admin user has permission to view customer account details
+        if (!authResponse.isAdmin()) {
+            throw new BookStoreException("Admin privileges required to view accounts");
+        }
+
+        return findAccountRecord(requestKey);
+    }
+
+    @Override
     public AccountDetailsRecord addAccount(AccountAddMessage request) {
         var addUserDto = request.getAddDto();
         var addUserEmail = addUserDto.getUserEmail();
@@ -33,7 +56,7 @@ public class AccountService {
                 request.getMessageType(),
                 addUserEmail);
 
-        var authResponse = this.authService.Authorize(request.getAuthRequestDto());
+        var authResponse = this.authService.Authorize(request.getAuthRequest());
 
         // only admin user has permission to add customer account details
         if (!authResponse.isAdmin()) {
@@ -47,21 +70,22 @@ public class AccountService {
                 ? ApplicationConstants.ADMIN_ROLE
                 : ApplicationConstants.CUSTOMER_ROLE;
 
-        var displayedWallet = addUserDto.getWallet();
-
         var addUserAccount = new Account(addUserDto.getUserEmail(),
-                "some user name",
                 addUserDto.getUserPassword(),
                 userRole,
                 addUserDto.getWallet(),
                 ApplicationConstants.ACTIVE_STATUS);
 
-        int createdUserKey = addUserAccount(addUserAccount);
+        int createdUserKey = createAccount(addUserAccount);
+        LOGGER.info("Created Account: " + createdUserKey);
 
-        return getDetailsRecord(createdUserKey);
+        return findAccountRecord(createdUserKey);
     }
 
-    private int addUserAccount(Account addUserDto) {
+    /*
+    Add entity to database, return new account key
+     */
+    private int createAccount(Account addUserDto) {
         try (EntityManager em = JpaUtil.getEntityManager()) {
             em.getTransaction().begin();
             em.persist(addUserDto);
@@ -70,24 +94,11 @@ public class AccountService {
         }
     }
 
-    public AccountDetailsRecord getAccount(GetMessage request) {
-        var requestKey = request.getQueryParameters().getQueryInt();
-        LOGGER.debug("Message: {}, RequestedKey: {}",
-                request.getMessageType(),
-                requestKey);
-
-        var authResponse = this.authService.Authorize(request.getAuthRequestDto());
-
-        // only admin user has permission to view customer account details
-        if (!authResponse.isAdmin()) {
-            throw new BookStoreException("Admin privileges required to view accounts");
-        }
-
-        return getDetailsRecord(requestKey);
-    }
-
-    private @Nullable AccountDetailsRecord getDetailsRecord(Integer requestKey) {
-        var matchedUser = findUser(requestKey);
+    /*
+    Find account and transform value into AccountDetailsRecord
+     */
+    private @Nullable AccountDetailsRecord findAccountRecord(Integer requestKey) {
+        var matchedUser = findAccount(requestKey);
         if (matchedUser == null) {
             LOGGER.warn("No user for key: {}", requestKey);
             return null;
@@ -110,8 +121,12 @@ public class AccountService {
                 userTransactions);
     }
 
+    /*
+    Transform from AccountTransaction database entity
+    to TransactionOverviewRecord response object
+     */
     private TransactionOverviewRecord buildTransactionOverview(AccountTransaction dao) {
-        // if no associated book key, then transaction is deposit
+        // if no associated book key, then transaction is a deposit
         var transactionType = (dao.getBookKey() == null)
                 ? TransactionType.DEPOSIT
                 : TransactionType.PURCHASE;
@@ -123,7 +138,7 @@ public class AccountService {
                 dao.getPurchaseQuantity());
     }
 
-    private Account findUser(int key) {
+    private Account findAccount(int key) {
         try (EntityManager em = JpaUtil.getEntityManager()){
             var query = em.createQuery("SELECT DISTINCT u FROM Account u LEFT JOIN FETCH u.transactions WHERE u.id = :key",
                             Account.class);
@@ -139,7 +154,7 @@ public class AccountService {
     // demo purposes only
     public static void main(String[] args) {
         try {
-            var authService = new AuthService();
+            var authService = new AuthorizationService();
             var accService = new AccountService(authService);
 
             var addUserMessage = new AccountAddMessage(

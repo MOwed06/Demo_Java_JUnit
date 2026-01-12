@@ -1,6 +1,8 @@
 package demo.mowed.core;
 
+import demo.mowed.interfaces.IAccountService;
 import demo.mowed.interfaces.IBookService;
+import demo.mowed.requests.AccountAddMessage;
 import demo.mowed.requests.GetMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,11 +16,13 @@ class ApplicationRunnerTest {
 
     private ApplicationRunner testObject;
     private IBookService mockBookService;
+    private IAccountService mockAccountService;
 
     @BeforeEach
     void setup() {
         mockBookService = mock(IBookService.class);
-        testObject = new ApplicationRunner(mockBookService);
+        mockAccountService = mock(IAccountService.class);
+        testObject = new ApplicationRunner(mockBookService, mockAccountService);
     }
 
     /*
@@ -43,6 +47,26 @@ class ApplicationRunnerTest {
         testObject.processRequest(userEntry);
         // assert
         verify(mockBookService).getBooksByGenre(any(GetMessage.class));
+    }
+
+    @Test
+    void testGetAccountProcess() {
+        // arrange
+        String userEntry = "GetUser22.json";
+        // act
+        testObject.processRequest(userEntry);
+        // assert
+        verify(mockAccountService).getAccount(any(GetMessage.class));
+    }
+
+    @Test
+    void testAddAccountProcess() {
+        // arrange
+        String userEntry = "AddAccountJohnDoe.json";
+        // act
+        testObject.processRequest(userEntry);
+        // assert
+        verify(mockAccountService).addAccount(any(AccountAddMessage.class));
     }
 
     @Test

@@ -1,3 +1,4 @@
 demo\mowed\core\ApplicationRunnerTest.class
 demo\mowed\services\BookServiceTest.class
-demo\mowed\services\AuthServiceTest.class
+demo\mowed\services\AuthorizationServiceTest.class
+demo\mowed\services\AccountServiceTest.class

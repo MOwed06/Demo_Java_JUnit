@@ -1,13 +1,13 @@
 {
-  "messageType": "GET_BOOK",
-  "authRequestDto": {
+  "messageType": "POST_ADD_ACCOUNT",
+  "authRequest": {
     "userId": "Bruce.Wayne@demo.com",
     "password": "N0tV3ryS3cret"
   },
   "addDto": {
     "userEmail": "John.Doe.101@demo.com",
     "userPassword": "s0meW0rds",
-    "isAdmin": false,
+    "admin": false,
     "wallet": 123.45
   }
 }

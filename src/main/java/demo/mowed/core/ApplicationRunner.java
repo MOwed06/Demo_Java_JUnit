@@ -2,10 +2,12 @@ package demo.mowed.core;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import demo.mowed.interfaces.IAuthService;
+import demo.mowed.interfaces.IAccountService;
+import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.interfaces.IBookService;
 import demo.mowed.requests.*;
-import demo.mowed.services.AuthService;
+import demo.mowed.services.AccountService;
+import demo.mowed.services.AuthorizationService;
 import demo.mowed.services.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,8 +17,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class ApplicationRunner {
-    private IAuthService authService;
+    private IAuthorizationService authService;
     private IBookService bookService;
+    private IAccountService accountService;
 
     private static final Logger LOGGER = LogManager.getLogger(ApplicationRunner.class);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -25,15 +28,17 @@ public class ApplicationRunner {
     Standard constructor instantiates "normal" service objects
      */
     public ApplicationRunner() {
-        this.authService = new AuthService();
+        this.authService = new AuthorizationService();
         this.bookService = new BookService(this.authService);
+        this.accountService = new AccountService(this.authService);
     }
 
     /*
     This constructor is for unit testing
      */
-    public ApplicationRunner(IBookService bookService){
+    public ApplicationRunner(IBookService bookService, IAccountService accountService){
         this.bookService = bookService;
+        this.accountService = accountService;
     }
 
     public ApplicationResponse processRequest(String userEntry) {
@@ -77,16 +82,24 @@ public class ApplicationRunner {
                 var getBookRsp = this.bookService.getBook(getBookMsg);
                 return processElement(getBookRsp);
 
-            case GET_BOOKS_BY_GENRE:
+            case MessageType.GET_BOOKS_BY_GENRE:
                 var getBooksGenreMsg = OBJECT_MAPPER.readValue(messageFile, GetMessage.class);
                 var getBooksGenreRsp = this.bookService.getBooksByGenre(getBooksGenreMsg);
                 return processElements(getBooksGenreRsp);
 
+            case MessageType.GET_ACCOUNT:
+                var getAccountMsg = OBJECT_MAPPER.readValue(messageFile, GetMessage.class);
+                var getAccountRsp = this.accountService.getAccount(getAccountMsg);
+                return processElement(getAccountRsp);
+
+            case MessageType.POST_ADD_ACCOUNT:
+                var addAccountMsg = OBJECT_MAPPER.readValue(messageFile, AccountAddMessage.class);
+                var addAccountRsp = this.accountService.addAccount(addAccountMsg);
+                return  processElement(addAccountRsp);
+
             default:
                 throw new BookStoreException("Unknown message type: " + messageType);
-
         }
-
     }
 
     private ApplicationResponse processElement(Object element) {
