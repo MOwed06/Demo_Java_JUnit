@@ -51,4 +51,14 @@ public class Account {
     @Setter
     @OneToMany(mappedBy = "userKey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountTransaction> transactions = new ArrayList<>();
+
+    public Account(String userEmail, String userName, String password, int role, float wallet, int userStatus) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+        this.wallet = wallet;
+        this.userStatus = userStatus;
+        this.transactions = new ArrayList<>();
+    }
 }

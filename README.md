@@ -20,6 +20,11 @@ Still to do
 - add UserService
 - add TransactionService
 
+<br>
+
+### Feature Backlog
+
+- convert AddUpdate dto objects for range validation with bean package
 
 <br>
 

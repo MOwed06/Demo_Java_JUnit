@@ -2,7 +2,7 @@ package demo.mowed.requests;
 
 import demo.mowed.core.Genre;
 
-public class BookAddUpdateDto {
+public class BookAddDto {
     private String title;
     private String author;
     private String isbn;
@@ -11,10 +11,10 @@ public class BookAddUpdateDto {
     private float price;
     private int stockQuantity;
 
-    public BookAddUpdateDto() {
+    public BookAddDto() {
     }
 
-    public BookAddUpdateDto(String title, String author, String isbn, String description, Genre genre, float price, int stockQuantity) {
+    public BookAddDto(String title, String author, String isbn, String description, Genre genre, float price, int stockQuantity) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
