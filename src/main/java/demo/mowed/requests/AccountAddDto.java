@@ -34,6 +34,9 @@ public class AccountAddDto {
     @Setter
     private float wallet;
 
+    public AccountAddDto() {
+    }
+
     public AccountAddDto(String userEmail, String userPassword, boolean isAdmin, float wallet) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;

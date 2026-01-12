@@ -1,6 +1,10 @@
 package demo.mowed.requests;
 
+import demo.mowed.core.MessageType;
+
 /*
+GetMessage is overloaded by design
+The MessageType parameter in combination with queryParameters dictates behavor
 GetMessage is generalized object to model get requests of _any_ flavor
 Some messages will possess queryParameters with int value, others with String, some a null queryParameter
 For example:

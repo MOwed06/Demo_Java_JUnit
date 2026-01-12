@@ -10,13 +10,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AuthServiceTest {
+class AuthorizationServiceTest {
 
-    private AuthService testObject;
+    private AuthorizationService testObject;
 
     @BeforeEach
     void setUp() {
-        testObject = new AuthService();
+        testObject = new AuthorizationService();
     }
 
     @ParameterizedTest

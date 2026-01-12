@@ -1,5 +1,7 @@
 package demo.mowed.requests;
 
+import demo.mowed.core.MessageType;
+
 public class BookAddMessage extends RequestMessage {
     private BookAddDto addDto;
 

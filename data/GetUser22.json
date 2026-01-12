@@ -1,6 +1,6 @@
 {
-  "messageType": "GET_BOOK",
-  "authRequestDto": {
+  "messageType": "GET_ACCOUNT",
+  "authRequest": {
     "userId": "Bruce.Wayne@demo.com",
     "password": "N0tV3ryS3cret"
   },

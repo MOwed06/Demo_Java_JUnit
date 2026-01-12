@@ -4,7 +4,7 @@ import demo.mowed.core.ApplicationConstants;
 import demo.mowed.core.BookStoreException;
 import demo.mowed.database.Account;
 import demo.mowed.database.JpaUtil;
-import demo.mowed.interfaces.IAuthService;
+import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.AuthRequest;
 import demo.mowed.responses.AuthResponse;
 import jakarta.persistence.EntityManager;
@@ -20,9 +20,9 @@ Authorization failures will be associated with an exception (refer to AuthServic
 Users with isActive false can view books, but not purchase books.
 Only user with isAdmin true may add/modify users and books.
  */
-public class AuthService implements IAuthService {
+public class AuthorizationService implements IAuthorizationService {
 
-    private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
+    private static final Logger LOGGER = LogManager.getLogger(AuthorizationService.class);
 
 
     /**
@@ -76,7 +76,7 @@ public class AuthService implements IAuthService {
     // demo purposes only
     public static void main(String[] args) {
         try {
-            var authService = new AuthService();
+            var authService = new AuthorizationService();
             var authRequest = new AuthRequest("Bruce.Wayne@demo.com", "N0tV3ryS3cret");
             var observed = authService.Authorize(authRequest);
             System.out.println(observed);

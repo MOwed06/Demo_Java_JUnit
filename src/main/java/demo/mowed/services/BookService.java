@@ -1,8 +1,9 @@
 package demo.mowed.services;
 
 import demo.mowed.core.Genre;
+import demo.mowed.core.MessageType;
 import demo.mowed.database.*;
-import demo.mowed.interfaces.IAuthService;
+import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.interfaces.IBookService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.BookDetailsRecord;
@@ -19,11 +20,11 @@ authorization failure will throw exception and force failure
 note that inActive user may view (but not purchase) books
  */
 public class BookService implements IBookService {
-    private final IAuthService authService;
+    private final IAuthorizationService authService;
 
     private static final Logger LOGGER = LogManager.getLogger(BookService.class);
 
-    public BookService(IAuthService authService) {
+    public BookService(IAuthorizationService authService) {
         this.authService = authService;
     }
 
@@ -37,7 +38,7 @@ public class BookService implements IBookService {
                 request.getMessageType(),
                 requestKey);
 
-        this.authService.Authorize(request.getAuthRequestDto());
+        this.authService.Authorize(request.getAuthRequest());
 
         var matchedBook = findBookByKey(requestKey);
         if (matchedBook == null) {
@@ -72,7 +73,7 @@ public class BookService implements IBookService {
                 request.getMessageType(),
                 genreName);
 
-        this.authService.Authorize(request.getAuthRequestDto());
+        this.authService.Authorize(request.getAuthRequest());
 
         Genre searchGenre = Genre.fromString(genreName);
 
@@ -136,7 +137,7 @@ public class BookService implements IBookService {
     // demo purposes only
     public static void main(String[] args) {
         try {
-            var authService = new AuthService();
+            var authService = new AuthorizationService();
             var bookService = new BookService(authService);
 
             var bookRequest = new GetMessage(

@@ -1,7 +1,8 @@
 package demo.mowed.services;
 
 import demo.mowed.core.Genre;
-import demo.mowed.interfaces.IAuthService;
+import demo.mowed.core.MessageType;
+import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AuthResponse;
 import demo.mowed.responses.BookOverviewRecord;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 class BookServiceTest {
 
-    private static IAuthService authService;
+    private static IAuthorizationService authService;
     private BookService testObject;
 
     // collection of pre-existing books in BigBooks.db
@@ -30,7 +31,7 @@ class BookServiceTest {
     static void setupOnce(){
         // set authService mock to always respond with valid user
         // when any authRequest received
-        authService = mock(IAuthService.class);
+        authService = mock(IAuthorizationService.class);
         when(authService.Authorize(any(AuthRequest.class)))
                 .thenReturn(new AuthResponse(true, true));
 
