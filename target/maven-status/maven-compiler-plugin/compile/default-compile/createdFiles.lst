@@ -13,6 +13,7 @@ demo\mowed\responses\BookDetailsRecord.class
 demo\mowed\core\ApplicationResponse.class
 demo\mowed\interfaces\IBookService.class
 demo\mowed\responses\TransactionOverviewRecord.class
+demo\mowed\utils\RandomHelper$1.class
 demo\mowed\core\BookStoreException.class
 demo\mowed\Main.class
 demo\mowed\core\ApplicationConstants.class
@@ -27,6 +28,7 @@ demo\mowed\interfaces\IAuthorizationService.class
 demo\mowed\database\Account.class
 demo\mowed\core\ApplicationRunner$1.class
 demo\mowed\database\Book.class
+demo\mowed\utils\RandomHelper.class
 demo\mowed\database\BookReview.class
 demo\mowed\services\AuthorizationService.class
 demo\mowed\requests\AccountAddMessage.class
