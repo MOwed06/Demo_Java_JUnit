@@ -1,99 +1,46 @@
 package demo.mowed.database;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "AppUsers")
+@Access(AccessType.FIELD)
+@NoArgsConstructor
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Key")    
+    @Column(name = "Key")
+    @Getter
     private int key;
 
-    @Column(name = "Role")    
+    @Column(name = "Role")
+    @Getter
+    @Setter
     private int role;
 
     @Column(name = "UserEmail")
+    @Getter
+    @Setter
     private String userEmail;
 
     @Column(name = "UserName")
+    @Getter
+    @Setter
     private String userName;
 ;
     @Column(name = "Password")
+    @Getter
+    @Setter
     private String password;
 
     @Column(name = "Wallet")
+    @Getter
+    @Setter
     private float wallet;
     
-    @Column(name = "IsActive")        
+    @Column(name = "IsActive")
+    @Getter
+    @Setter
     private int userStatus;
-
-    public AppUser() {
-    }
-
-    public AppUser(int key, int role, String userEmail, String userName, String password, float wallet, int userStatus) {
-        this.key = key;
-        this.role = role;
-        this.userEmail = userEmail;
-        this.userName = userName;
-        this.password = password;
-        this.wallet = wallet;
-        this.userStatus = userStatus;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public float getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(float wallet) {
-        this.wallet = wallet;
-    }
-
-    public int getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(int status) {
-        this.userStatus = status;
-    }
 }

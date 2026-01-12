@@ -13,6 +13,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/*
+Authorization Response
+Authorization failures will be associated with an exception (refer to AuthService.java).
+Users with isActive false can view books, but not purchase books.
+Only user with isAdmin true may add/modify users and books.
+ */
 public class AuthService implements IAuthService {
 
     private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
