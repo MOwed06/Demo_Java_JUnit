@@ -14,11 +14,17 @@ Notes in progress ...
 - log files
 - add operations ... service will validate object before add, send error back to user if necessary
 - some note about adding to database
+- authService - throw exception if invalid, refer to AuthService.java
 
 Still to do
 - add UserService
 - add TransactionService
 
+<br>
+
+### Feature Backlog
+
+- convert AddUpdate dto objects for range validation with bean package
 
 <br>
 

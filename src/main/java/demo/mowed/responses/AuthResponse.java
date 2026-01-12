@@ -1,11 +1,5 @@
 package demo.mowed.responses;
 
-/*
-Authorization Response
-Authorization failures will be associated with an exception (refer to AuthService.java).
-Users with isActive false can view books, but not purchase books.
-Only user with isAdmin true may add/modify users and books.
- */
 public record AuthResponse(boolean isActive, boolean isAdmin) {
 
     @Override

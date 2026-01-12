@@ -9,7 +9,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>demo.mowed.database.Book</class>
         <class>demo.mowed.database.BookReview</class>
-        <class>demo.mowed.database.AppUser</class>
+        <class>demo.mowed.database.Account</class>
         
         <properties>
             <!-- SQLite JDBC connection properties -->
@@ -20,8 +20,8 @@
             <property name="hibernate.dialect" value="org.hibernate.community.dialect.SQLiteDialect"/>
             
             <!-- Hibernate settings -->
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             
             <!-- Connection pool settings -->
