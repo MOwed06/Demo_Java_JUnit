@@ -45,10 +45,16 @@ public class RandomHelper {
         return source.get(selectIndex);
     }
 
-    public static String getPerson() {
+    public static String generatePerson() {
         var firstName = selectItem(firstNames);
         var lastName = selectItem(lastNames);
         return String.format("%s %s", firstName, lastName);
+    }
+
+    public static String generateEmail() {
+        var firstName = selectItem(firstNames);
+        var lastName = selectItem(lastNames);
+        return String.format("%s.%s@demo.com", firstName, lastName);
     }
 
     public static String getGUID() {
@@ -59,7 +65,7 @@ public class RandomHelper {
     // demo purposes only
     public static void main(String[] args) {
         try {
-            var person = RandomHelper.getPerson();
+            var person = RandomHelper.generatePerson();
             System.out.println(person);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
