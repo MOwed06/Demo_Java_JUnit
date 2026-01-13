@@ -1,22 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: demo.mowed.services.AccountServiceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.086 s <<< FAILURE! -- in demo.mowed.services.AccountServiceTest
-demo.mowed.services.AccountServiceTest -- Time elapsed: 0.086 s <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "demo.mowed.requests.AuthRequest.getUserId()" because "p" is null
-	at demo.mowed.services.AccountServiceTest.lambda$setupOnce$0(AccountServiceTest.java:34)
-	at org.mockito.internal.invocation.TypeSafeMatching.apply(TypeSafeMatching.java:35)
-	at org.mockito.internal.invocation.MatcherApplicationStrategy.argsMatch(MatcherApplicationStrategy.java:106)
-	at org.mockito.internal.invocation.MatcherApplicationStrategy.forEachMatcherAndArgument(MatcherApplicationStrategy.java:92)
-	at org.mockito.internal.invocation.InvocationMatcher.argumentsMatch(InvocationMatcher.java:156)
-	at org.mockito.internal.invocation.InvocationMatcher.matches(InvocationMatcher.java:82)
-	at org.mockito.internal.stubbing.InvocationContainerImpl.findAnswerFor(InvocationContainerImpl.java:100)
-	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:91)
-	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
-	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
-	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84)
-	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:58)
-	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptAbstract(MockMethodInterceptor.java:163)
-	at demo.mowed.interfaces.IAuthorizationService$MockitoMock$lM6iKkFi.Authorize(Unknown Source)
-	at demo.mowed.services.AccountServiceTest.setupOnce(AccountServiceTest.java:37)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.708 s -- in demo.mowed.services.AccountServiceTest
