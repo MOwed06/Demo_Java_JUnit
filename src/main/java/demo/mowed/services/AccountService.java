@@ -11,7 +11,9 @@ import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AccountDetailsRecord;
 import demo.mowed.responses.TransactionOverviewRecord;
+import demo.mowed.utils.MathHelper;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.Nullable;
@@ -38,7 +40,7 @@ public class AccountService implements IAccountService {
                 request.getMessageType(),
                 requestKey);
 
-        var authResponse = this.authService.Authorize(request.getAuthRequest());
+        var authResponse = this.authService.authorize(request.getAuthRequest());
 
         // only admin user has permission to view customer account details
         if (!authResponse.isAdmin()) {
@@ -52,11 +54,11 @@ public class AccountService implements IAccountService {
     public AccountDetailsRecord addAccount(AccountAddMessage request) {
         var addUserDto = request.getAddDto();
         var addUserEmail = addUserDto.getUserEmail();
-        LOGGER.debug("Message: {}, RequestedKey: {}",
+        LOGGER.debug("Message: {}, AddedUser: {}",
                 request.getMessageType(),
                 addUserEmail);
 
-        var authResponse = this.authService.Authorize(request.getAuthRequest());
+        var authResponse = this.authService.authorize(request.getAuthRequest());
 
         // only admin user has permission to add customer account details
         if (!authResponse.isAdmin()) {
@@ -65,6 +67,11 @@ public class AccountService implements IAccountService {
 
         // confirm dto parameters valid before adding to database
         addUserDto.validate();
+
+        var existingUser = checkUserExists(addUserEmail);
+        if (existingUser) {
+            throw new BookStoreException("Cannot add new user, existing user: " + addUserEmail);
+        }
 
         var userRole = addUserDto.isAdmin()
                 ? ApplicationConstants.ADMIN_ROLE
@@ -80,6 +87,18 @@ public class AccountService implements IAccountService {
         LOGGER.info("Created Account: " + createdUserKey);
 
         return findAccountRecord(createdUserKey);
+    }
+
+    public boolean checkUserExists(String userEmail) {
+        try (EntityManager em = JpaUtil.getEntityManager()) {
+            TypedQuery<Account> query = em.createQuery(
+                    "SELECT u FROM Account u WHERE u.userEmail = :email",
+                    Account.class
+            );
+            query.setParameter("email", userEmail);
+            List<Account> results = query.getResultList();
+            return !results.isEmpty();
+        }
     }
 
     /*
@@ -133,7 +152,7 @@ public class AccountService implements IAccountService {
         return new TransactionOverviewRecord(dao.getKey(),
                 dao.getTransactionDateTime(),
                 transactionType,
-                dao.getTransactionAmount(),
+                MathHelper.truncate(dao.getTransactionAmount(), 2),
                 dao.getBookKey(),
                 dao.getPurchaseQuantity());
     }

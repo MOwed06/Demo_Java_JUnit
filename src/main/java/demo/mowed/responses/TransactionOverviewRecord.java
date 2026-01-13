@@ -35,12 +35,22 @@ public record TransactionOverviewRecord(int key,
     public boolean equals(Object obj) {
         if (obj instanceof  TransactionOverviewRecord){
             TransactionOverviewRecord compare = (TransactionOverviewRecord)obj;
+
+            if (TransactionType.PURCHASE.equals(this.transactionType)) {
+                return (compare.key == this.key)
+                        && compare.transactionDateTime.equals(this.transactionDateTime)
+                        && compare.transactionType.equals(this.transactionType)
+                        && compare.transactionAmount.equals(this.transactionAmount)
+                        && compare.bookKey.equals(this.bookKey)
+                        && compare.purchaseQuantity.equals(this.purchaseQuantity);
+            }
+            // for deposit, both bookKey and purchaseQuantity must be null
             return (compare.key == this.key)
-                && compare.transactionDateTime.equals(this.transactionDateTime)
-                && compare.transactionType.equals(this.transactionType)
-                && compare.transactionAmount.equals(this.transactionAmount)
-                && compare.bookKey.equals(this.bookKey)
-                && compare.purchaseQuantity.equals(this.purchaseQuantity);
+                    && compare.transactionDateTime.equals(this.transactionDateTime)
+                    && compare.transactionType.equals(this.transactionType)
+                    && compare.transactionAmount.equals(this.transactionAmount)
+                    && (compare.bookKey == null)
+                    && (compare.purchaseQuantity == null);
         }
         return false;
     }

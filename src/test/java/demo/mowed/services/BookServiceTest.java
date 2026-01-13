@@ -32,7 +32,7 @@ class BookServiceTest {
         // set authService mock to always respond with valid user
         // when any authRequest received
         authService = mock(IAuthorizationService.class);
-        when(authService.Authorize(any(AuthRequest.class)))
+        when(authService.authorize(any(AuthRequest.class)))
                 .thenReturn(new AuthResponse(true, true));
 
         historyBooks = new ArrayList<>();

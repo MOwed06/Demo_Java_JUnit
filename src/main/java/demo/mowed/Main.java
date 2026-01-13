@@ -11,10 +11,10 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    static void main() {
+    public static void main(String[] argsG) {
         try {
             LOGGER.info("Starting");
             ApplicationRunner appRunner = new ApplicationRunner();

@@ -29,7 +29,7 @@ class AuthorizationServiceTest {
         // arrange
         var authRequest = new AuthRequest(userEmail, password);
         // act
-        var observed = testObject.Authorize(authRequest);
+        var observed = testObject.authorize(authRequest);
         // assert
         assertEquals(expectActive, observed.isActive());
         assertEquals(expectAdmin, observed.isAdmin());
@@ -45,7 +45,7 @@ class AuthorizationServiceTest {
         var authRequest = new AuthRequest(userEmail, password);
         // act
         Exception ex = assertThrows(BookStoreException.class, () -> {
-            testObject.Authorize(authRequest);
+            testObject.authorize(authRequest);
         });
         // assert
         assertTrue(ex.getMessage().contains(errorMessage));
@@ -56,7 +56,7 @@ class AuthorizationServiceTest {
         // arrange
         var authRequest = new AuthRequest(null, "N0tV3ryS3cret");
         Exception ex = assertThrows(BookStoreException.class, () -> {
-            testObject.Authorize(authRequest);
+            testObject.authorize(authRequest);
         });
         // assert
         assertTrue(ex.getMessage().contains("Invalid user email"));

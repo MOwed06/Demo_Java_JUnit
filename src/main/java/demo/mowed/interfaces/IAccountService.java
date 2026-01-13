@@ -8,4 +8,6 @@ public interface IAccountService {
     AccountDetailsRecord getAccount(GetMessage request);
 
     AccountDetailsRecord addAccount(AccountAddMessage request);
+
+    boolean checkUserExists(String userEmail);
 }

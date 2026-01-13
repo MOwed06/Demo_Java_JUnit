@@ -31,13 +31,13 @@ public class AuthorizationService implements IAuthorizationService {
      * @return authorization response
      * @throws BookStoreException if user not found or wrong password
      */
-    public AuthResponse Authorize(AuthRequest dto) {
+    public AuthResponse authorize(AuthRequest dto) {
 
         var userEmail = dto.getUserId();
         LOGGER.debug("AuthRequest, user: {}}", userEmail);
 
         // confirm user exists in database
-        var appUser = getUser(userEmail);
+        var appUser = findUser(userEmail);
 
         // check for null or empty userEmail
         if (userEmail == null || userEmail.isEmpty()) {
@@ -61,7 +61,7 @@ public class AuthorizationService implements IAuthorizationService {
         return new AuthResponse(isActive, isAdmin);
     }
 
-    private Account getUser(String userEmail) {
+    private Account findUser(String userEmail) {
         try (EntityManager em = JpaUtil.getEntityManager()) {
             TypedQuery<Account> query = em.createQuery(
                     "SELECT u FROM Account u WHERE u.userEmail = :email",
@@ -78,7 +78,7 @@ public class AuthorizationService implements IAuthorizationService {
         try {
             var authService = new AuthorizationService();
             var authRequest = new AuthRequest("Bruce.Wayne@demo.com", "N0tV3ryS3cret");
-            var observed = authService.Authorize(authRequest);
+            var observed = authService.authorize(authRequest);
             System.out.println(observed);
 
 

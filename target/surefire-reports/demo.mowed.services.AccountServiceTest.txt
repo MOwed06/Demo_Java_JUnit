@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: demo.mowed.services.AccountServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.433 s -- in demo.mowed.services.AccountServiceTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.708 s -- in demo.mowed.services.AccountServiceTest
