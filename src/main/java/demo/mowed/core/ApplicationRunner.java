@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class ApplicationRunner {
-    private IAuthorizationService authService;
-    private IBookService bookService;
-    private IAccountService accountService;
+    private final IBookService bookService;
+    private final IAccountService accountService;
 
     private static final Logger LOGGER = LogManager.getLogger(ApplicationRunner.class);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -28,9 +27,9 @@ public class ApplicationRunner {
     Standard constructor instantiates "normal" service objects
      */
     public ApplicationRunner() {
-        this.authService = new AuthorizationService();
-        this.bookService = new BookService(this.authService);
-        this.accountService = new AccountService(this.authService);
+        IAuthorizationService authService = new AuthorizationService();
+        this.bookService = new BookService(authService);
+        this.accountService = new AccountService(authService);
     }
 
     /*
