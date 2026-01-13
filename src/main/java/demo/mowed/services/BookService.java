@@ -38,7 +38,7 @@ public class BookService implements IBookService {
                 request.getMessageType(),
                 requestKey);
 
-        this.authService.Authorize(request.getAuthRequest());
+        this.authService.authorize(request.getAuthRequest());
 
         var matchedBook = findBookByKey(requestKey);
         if (matchedBook == null) {
@@ -73,7 +73,7 @@ public class BookService implements IBookService {
                 request.getMessageType(),
                 genreName);
 
-        this.authService.Authorize(request.getAuthRequest());
+        this.authService.authorize(request.getAuthRequest());
 
         Genre searchGenre = Genre.fromString(genreName);
 

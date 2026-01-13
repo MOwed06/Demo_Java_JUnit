@@ -46,6 +46,7 @@ This project is a first step toward an eventual Java Web API application. This i
 ### Feature Backlog
 - implement TransactionService 
 - convert AddUpdate dto objects for range validation with bean package
+- add support to delete user (to simplify unit test)
 
 <br>
 
