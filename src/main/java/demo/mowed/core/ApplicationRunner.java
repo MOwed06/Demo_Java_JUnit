@@ -87,6 +87,11 @@ public class ApplicationRunner {
                 var getBooksGenreRsp = this.bookService.getBooksByGenre(getBooksGenreMsg);
                 return processElements(getBooksGenreRsp);
 
+            case MessageType.GET_BOOK_REVIEWS:
+                var getReviewsMsg = OBJECT_MAPPER.readValue(messageFile, GetMessage.class);
+                var getReviewsRsp = this.bookService.getBookReviews(getReviewsMsg);
+                return processElements(getReviewsRsp);
+
             case MessageType.GET_ACCOUNT:
                 var getAccountMsg = OBJECT_MAPPER.readValue(messageFile, GetMessage.class);
                 var getAccountRsp = this.accountService.getAccount(getAccountMsg);
@@ -103,7 +108,7 @@ public class ApplicationRunner {
     }
 
     private ApplicationResponse processElement(Object element) {
-        return new ApplicationResponse(true, element.toString());
+        return new ApplicationResponse(true, String.valueOf(element));
     }
 
     private ApplicationResponse processElements(List<?> elements) {
