@@ -4,12 +4,20 @@ This project is sandbox for demonstrating Java and JUnit. The Java application i
 
 This project is a first step toward an eventual Java Web API application. This initial implementation reads a user-defined file, parses that file into a request message, sends the request to correct application service, and displays the response. The application continues in a loop until the user selects 'Q' to quit the application.
 
-<br>
+### Application Operation
 
-## Project Structure
+- The project executes as console application.
+- The user selects actions by inputting a file name (which must exist in the data directory).
+- The application parses the file as request message.
+- Responses from "book store" are displayed in the console.
+- Select 'Q' to terminate execution.
+
+## Structure
 
 ### Services
-- AuthorizationService ~ Authenticates user requests. This service is called internally from the other services as a pre-condition to performing the user's requested operation.
+- AuthorizationService
+  - Authenticates user requests defined by received AuthRequest object.
+  - This service is called internally from the other services as a pre-condition to performing the user's requested operation.
 - AccountService
   - GET_ACCOUNT ~ Retrieve account info (and transaction history) for a selected user. Requires admin role.
   - ADD_ACCOUNT ~ Add new account. Requires admin role.
@@ -19,27 +27,35 @@ This project is a first step toward an eventual Java Web API application. This i
 
 ### Database
 
+- A persistent sqlite database is maintained as part of the project.
+  - data/BigBooks.db
+- The database package objects correspond directly to table elements.
+  - Account
+  - AccountTransaction
+  - Book
+  - BookReview
+
 ### Requests
 
+- RequestMessage is the base class for all request messages.
+  - RequestMessages approximate the behavior API requests.
+  - ApplicationRunner.java parses the selected input file according to the MessageType property.
+  - ApplicationRunner directs the message to the associated Service for processing.
+- GetMessage
+  - Common get request.
+  - The combination of messageType and queryParameters resolve the intended operation.
+- AccountAddMessage
+  - Create user account per properties of child AccountAddDto object.
+
 ### Responses
-
-
-
-
+- Response records are transformed from the database entities.
 
 <br>
 
 ### Notes still progress ...
-- message files in data directory
-- design structure
-  - requests package = objects sent to app (equivalent to incoming API message)
-  - responses package = objects returned from app
-- run from command line
-  - name json file
 - log files
 - add operations ... service will validate object before add, send error back to user if necessary
 - some note about adding to database
-- authService - throw exception if invalid, refer to AuthService.java
 
 <br>
 

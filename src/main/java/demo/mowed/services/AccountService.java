@@ -11,6 +11,7 @@ import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AccountDetailsRecord;
 import demo.mowed.responses.TransactionOverviewRecord;
+import demo.mowed.utils.MathHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -151,7 +152,7 @@ public class AccountService implements IAccountService {
         return new TransactionOverviewRecord(dao.getKey(),
                 dao.getTransactionDateTime(),
                 transactionType,
-                dao.getTransactionAmount(),
+                MathHelper.truncate(dao.getTransactionAmount(), 2),
                 dao.getBookKey(),
                 dao.getPurchaseQuantity());
     }

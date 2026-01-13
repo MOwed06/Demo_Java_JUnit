@@ -8,6 +8,7 @@ import demo.mowed.interfaces.IBookService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.BookDetailsRecord;
 import demo.mowed.responses.BookOverviewRecord;
+import demo.mowed.utils.MathHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -57,7 +58,7 @@ public class BookService implements IBookService {
                 matchedBook.getIsbn(),
                 matchedBook.getDescription(),
                 bookGenre,
-                matchedBook.getPrice(),
+                MathHelper.truncate(matchedBook.getPrice(), 2),
                 isAvailable,
                 rating,
                 reviewCount);
@@ -109,7 +110,7 @@ public class BookService implements IBookService {
                 .mapToInt(BookReview::getScore)
                 .average()
                 .orElse(0.0);
-        return (float)averageScore;
+        return MathHelper.truncate((float)averageScore, 2);
     }
 
     /*

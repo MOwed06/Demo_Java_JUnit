@@ -2,13 +2,21 @@ package demo.mowed.services;
 
 import demo.mowed.core.BookStoreException;
 import demo.mowed.core.MessageType;
+import demo.mowed.core.TransactionType;
 import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AuthResponse;
+import demo.mowed.responses.TransactionOverviewRecord;
+import demo.mowed.utils.MathHelper;
 import demo.mowed.utils.RandomHelper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -20,6 +28,8 @@ class AccountServiceTest {
     private static final String SOME_ADMIN = "BobTheAdministrator";
     private static IAuthorizationService authService;
     private AccountService testObject;
+    private final int BELLA_BARNES_KEY = 5;
+    private static List<TransactionOverviewRecord> user5Transations;
 
     @BeforeAll
     static void setupOnce(){
@@ -35,6 +45,14 @@ class AccountServiceTest {
         when(authService.authorize(argThat(p -> p == null || 
                 !p.getUserId().equals(SOME_ADMIN))))
                 .thenReturn(new AuthResponse(true, false));
+
+        // transactions for user 5 (Bella Barnes) are predefined
+        user5Transations = new ArrayList<>();
+        user5Transations.add(new TransactionOverviewRecord(4, parseDT("2025-04-01T00:00:00"), TransactionType.PURCHASE, -33.21f, 2, 3));
+        user5Transations.add(new TransactionOverviewRecord(5, parseDT("2025-04-02T00:00:00"), TransactionType.PURCHASE, -16.71f, 8, 2));
+        user5Transations.add(new TransactionOverviewRecord(6, parseDT("2025-04-03T00:00:00"), TransactionType.PURCHASE, -9.07f, 9, 1));
+        user5Transations.add(new TransactionOverviewRecord(7, parseDT("2025-06-03T00:00:00"), TransactionType.PURCHASE, -9.17f, 9, 1));
+        user5Transations.add(new TransactionOverviewRecord(8, parseDT("2025-06-04T00:00:00"), TransactionType.DEPOSIT, 75.00f, null, null));
     }
 
     @BeforeEach
@@ -45,7 +63,6 @@ class AccountServiceTest {
     @Test
     void getAccountBasicInfo() {
         // arrange
-        final int BELLA_BARNES_KEY = 5;
         var requestMessage = new GetMessage(
                 MessageType.GET_ACCOUNT,
                 new AuthRequest(SOME_ADMIN, "password"),
@@ -60,6 +77,20 @@ class AccountServiceTest {
                 () -> assertEquals(50.0f, observed.wallet()),
                 () -> assertFalse(observed.isAdmin()),
                 () -> assertTrue(observed.isActive()));
+    }
+
+    @Test
+    void getAccountTransactions() {
+        // arrange
+        var requestMessage = new GetMessage(
+                MessageType.GET_ACCOUNT,
+                new AuthRequest(SOME_ADMIN, "password"),
+                new QueryParameters(BELLA_BARNES_KEY)
+        );
+        // act
+        var observed = testObject.getAccount(requestMessage);
+        // assert
+        assertTrue(observed.transactions().containsAll(user5Transations));
     }
 
     @Test
@@ -78,7 +109,6 @@ class AccountServiceTest {
         // assert
         assertTrue(ex.getMessage().contains("Admin privileges required"));
     }
-
 
     /*
     This test will generate a randomized account
@@ -125,5 +155,9 @@ class AccountServiceTest {
         });
         // assert
         assertTrue(ex.getMessage().contains("Cannot add new user, existing user"));
+    }
+
+    private static LocalDateTime parseDT(String timeString) {
+        return  LocalDateTime.parse(timeString);
     }
 }
