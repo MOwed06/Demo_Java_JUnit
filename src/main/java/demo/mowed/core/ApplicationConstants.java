@@ -5,4 +5,5 @@ public class ApplicationConstants {
     public static final int ADMIN_ROLE = -1;
     public static final int CUSTOMER_ROLE = 0;
     public static final int ACTIVE_STATUS = 1;
+    public static final String RANDOM_REPLACE = "???";
 }

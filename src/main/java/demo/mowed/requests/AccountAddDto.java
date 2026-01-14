@@ -1,6 +1,8 @@
 package demo.mowed.requests;
 
+import demo.mowed.core.ApplicationConstants;
 import demo.mowed.core.BookStoreException;
+import demo.mowed.utils.RandomHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,10 @@ public class AccountAddDto {
      */
     public void validate() {
         List<String> validationErrors = new ArrayList<>();
+
+        if (ApplicationConstants.RANDOM_REPLACE.equals(userEmail)){
+            userEmail = RandomHelper.generateEmail();
+        }
 
         if (userEmail == null) {
             validationErrors.add("userEmail is required");

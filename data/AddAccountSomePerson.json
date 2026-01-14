@@ -5,7 +5,7 @@
     "password": "N0tV3ryS3cret"
   },
   "body": {
-    "userEmail": "John.Doe.101@demo.com",
+    "userEmail": "???",
     "userPassword": "s0meW0rds",
     "admin": false,
     "wallet": 123.45
