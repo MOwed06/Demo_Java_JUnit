@@ -1,6 +1,7 @@
 package demo.mowed.responses;
 
 import demo.mowed.core.TransactionType;
+import demo.mowed.utils.StringHelper;
 import demo.mowed.utils.TimeHelper;
 
 import java.time.LocalDateTime;
@@ -15,18 +16,18 @@ public record TransactionOverviewRecord(int key,
     @Override
     public String toString() {
         if (TransactionType.DEPOSIT.equals(transactionType)) {
-            return String.format("Key: %d, %s, Date: %s, Amount: %f",
+            return String.format("Key: %d, %s, Date: %s, Amount: %s",
                     key,
                     transactionType.toString(),
                     TimeHelper.formatDateTime(transactionDateTime),
-                    transactionAmount);
+                    StringHelper.floatToCurrency(transactionAmount));
         }
         // book purchase
-        return String.format("Key: %d, %s, Date: %s, Amount: %f, Book: %d, Qty: %d",
+        return String.format("Key: %d, %s, Date: %s, Amount: %s, Book: %d, Qty: %d",
                 key,
                 transactionType.toString(),
                 TimeHelper.formatDateTime(transactionDateTime),
-                transactionAmount,
+                StringHelper.floatToCurrency(transactionAmount),
                 bookKey,
                 purchaseQuantity);
     }

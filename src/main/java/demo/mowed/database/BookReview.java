@@ -1,6 +1,6 @@
 package demo.mowed.database;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +24,7 @@ public class BookReview {
     @Column(name = "ReviewDate")
     @Getter
     @Setter
-    private LocalDate reviewDate;
+    private LocalDateTime reviewDate;
 
     @Column(name = "Description")
     @Getter

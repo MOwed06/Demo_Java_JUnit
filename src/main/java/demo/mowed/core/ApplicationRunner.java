@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class ApplicationRunner {
-    private IAuthorizationService authService;
-    private IBookService bookService;
-    private IAccountService accountService;
+    private final IBookService bookService;
+    private final IAccountService accountService;
 
     private static final Logger LOGGER = LogManager.getLogger(ApplicationRunner.class);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -28,9 +27,9 @@ public class ApplicationRunner {
     Standard constructor instantiates "normal" service objects
      */
     public ApplicationRunner() {
-        this.authService = new AuthorizationService();
-        this.bookService = new BookService(this.authService);
-        this.accountService = new AccountService(this.authService);
+        IAuthorizationService authService = new AuthorizationService();
+        this.bookService = new BookService(authService);
+        this.accountService = new AccountService(authService);
     }
 
     /*
@@ -87,6 +86,11 @@ public class ApplicationRunner {
                 var getBooksGenreRsp = this.bookService.getBooksByGenre(getBooksGenreMsg);
                 return processElements(getBooksGenreRsp);
 
+            case MessageType.GET_BOOK_REVIEWS:
+                var getReviewsMsg = OBJECT_MAPPER.readValue(messageFile, GetMessage.class);
+                var getReviewsRsp = this.bookService.getBookReviews(getReviewsMsg);
+                return processElements(getReviewsRsp);
+
             case MessageType.GET_ACCOUNT:
                 var getAccountMsg = OBJECT_MAPPER.readValue(messageFile, GetMessage.class);
                 var getAccountRsp = this.accountService.getAccount(getAccountMsg);
@@ -103,7 +107,7 @@ public class ApplicationRunner {
     }
 
     private ApplicationResponse processElement(Object element) {
-        return new ApplicationResponse(true, element.toString());
+        return new ApplicationResponse(true, String.valueOf(element));
     }
 
     private ApplicationResponse processElements(List<?> elements) {

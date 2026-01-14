@@ -50,6 +50,16 @@ class ApplicationRunnerTest {
     }
 
     @Test
+    void testGetBooksReviewsProcess() {
+        // arrange
+        String userEntry = "GetBookReviews06.json";
+        // act
+        testObject.processRequest(userEntry);
+        // assert
+        verify(mockBookService).getBookReviews(any(GetMessage.class));
+    }
+
+    @Test
     void testGetAccountProcess() {
         // arrange
         String userEntry = "GetUser22.json";

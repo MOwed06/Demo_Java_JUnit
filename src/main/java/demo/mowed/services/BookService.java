@@ -8,7 +8,9 @@ import demo.mowed.interfaces.IBookService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.BookDetailsRecord;
 import demo.mowed.responses.BookOverviewRecord;
+import demo.mowed.responses.BookReviewRecord;
 import demo.mowed.utils.MathHelper;
+import demo.mowed.utils.TimeHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -58,7 +60,7 @@ public class BookService implements IBookService {
                 matchedBook.getIsbn(),
                 matchedBook.getDescription(),
                 bookGenre,
-                MathHelper.truncate(matchedBook.getPrice(), 2),
+                matchedBook.getPrice(),
                 isAvailable,
                 rating,
                 reviewCount);
@@ -93,6 +95,31 @@ public class BookService implements IBookService {
                         b.getAuthor(),
                         searchGenre
                 ))
+                .toList();
+    }
+
+    public List<BookReviewRecord> getBookReviews(GetMessage request) {
+        var requestKey = request.getQueryParameters().getQueryInt();
+        LOGGER.debug("Message: {}, RequestedKey: {}",
+                request.getMessageType(),
+                requestKey);
+
+        this.authService.authorize(request.getAuthRequest());
+
+        var matchedBook = findBookByKey(requestKey);
+        if (matchedBook == null) {
+            LOGGER.warn("No book for key: {}", requestKey);
+            return null;
+        }
+
+        return matchedBook.getReviews()
+                .stream()
+                .map(r -> new BookReviewRecord(
+                        r.getKey(),
+                        matchedBook.getTitle(),
+                        r.getScore(),
+                        r.getReviewDate(),
+                        r.getDescription()))
                 .toList();
     }
 
@@ -142,15 +169,26 @@ public class BookService implements IBookService {
             var bookService = new BookService(authService);
 
             var bookRequest = new GetMessage(
-                    MessageType.GET_BOOKS_BY_GENRE,
+                    MessageType.GET_BOOK_REVIEWS,
                     new AuthRequest("Savannah.Tucker@demo.com", "N0tV3ryS3cret"),
-                    new QueryParameters("history")
+                    new QueryParameters(6)
             );
 
-            var observed = bookService.getBooksByGenre(bookRequest);
+            var observed = bookService.getBookReviews(bookRequest);
             for (var item : observed) {
                 System.out.println(item.toString());
             }
+
+//            var bookRequest = new GetMessage(
+//                    MessageType.GET_BOOKS_BY_GENRE,
+//                    new AuthRequest("Savannah.Tucker@demo.com", "N0tV3ryS3cret"),
+//                    new QueryParameters("history")
+//            );
+//
+//            var observed = bookService.getBooksByGenre(bookRequest);
+//            for (var item : observed) {
+//                System.out.println(item.toString());
+//            }
 
 //            var bookRequest = new GetMessage(
 //                    MessageType.GET_BOOK,
