@@ -6,12 +6,14 @@ import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AuthResponse;
 import demo.mowed.responses.BookOverviewRecord;
+import demo.mowed.responses.BookReviewRecord;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ class BookServiceTest {
 
     // collection of pre-existing books in BigBooks.db
     private static List<BookOverviewRecord> historyBooks;
+    private static List<BookReviewRecord> gregorBookReviews;
 
     @BeforeAll
     static void setupOnce(){
@@ -39,6 +42,10 @@ class BookServiceTest {
         historyBooks.add(new BookOverviewRecord(4, "Citizen Soldiers", "Stephen Ambrose", Genre.HISTORY));
         historyBooks.add(new BookOverviewRecord(13, "The American Revolution: An Intimate History", "Geoffrey C. Ward", Genre.HISTORY));
         historyBooks.add(new BookOverviewRecord(32, "A Prayer In Spring", "Dylan Vickers", Genre.HISTORY));
+
+        gregorBookReviews = new ArrayList<>();
+        gregorBookReviews.add(new BookReviewRecord(11, "Gregor and the Prophecy of Bane", 3, LocalDateTime.parse("2024-05-16T00:00:00"), "This book was way too dark for kids."));
+        gregorBookReviews.add(new BookReviewRecord(12, "Gregor and the Prophecy of Bane", 10, LocalDateTime.parse("2024-05-17T00:00:00"), "Every child should read this book."));
     }
 
     @BeforeEach
@@ -117,5 +124,35 @@ class BookServiceTest {
         assertTrue(observed
                 .stream()
                 .allMatch(b -> b.genre() == Genre.HISTORY));
+    }
+
+    @Test
+    void testGetReviewsEmpty() {
+        // arrange
+        int WILD_THINGS_BOOK_KEY = 2;
+        var bookRequest = new GetMessage(
+                MessageType.GET_BOOK_REVIEWS,
+                new AuthRequest("someuser", "password"),
+                new QueryParameters(WILD_THINGS_BOOK_KEY)
+        );
+        // act
+        var observed = testObject.getBookReviews(bookRequest);
+        // assert
+        assertTrue(observed.isEmpty());
+    }
+
+    @Test
+    void testGetReviews() {
+        // arrange
+        int GREGOR_BANE_BOOK_KEY = 9;
+        var bookRequest = new GetMessage(
+                MessageType.GET_BOOK_REVIEWS,
+                new AuthRequest("someuser", "password"),
+                new QueryParameters(GREGOR_BANE_BOOK_KEY)
+        );
+        // act
+        var observed = testObject.getBookReviews(bookRequest);
+        // assert
+        assertTrue(observed.containsAll(gregorBookReviews));
     }
 }

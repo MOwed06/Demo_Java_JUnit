@@ -1,0 +1,10 @@
+{
+  "messageType": "GET_BOOK_REVIEWS",
+  "authRequest": {
+    "userId": "Savannah.Tucker@demo.com",
+    "password": "N0tV3ryS3cret"
+  },
+  "queryParameters": {
+    "queryInt": 9
+  }
+}

@@ -28,6 +28,8 @@ This project is a first step toward an eventual Java Web API application. This i
     - example message: GetBook17.json
   - GET_BOOK_BY_GENRE ~ Retrieve overview list of books by selected genre.
     - example message: GetBooksHistory.json
+  - GET_BOOK_REVIEWS ~ Retrieve reviews for designated book.
+    - example message: GetBookReviews09.json
 
 ### Database
 
@@ -52,14 +54,12 @@ This project is a first step toward an eventual Java Web API application. This i
   - Create user account per properties of child AccountAddDto object.
 
 ### Responses
-- Response records are transformed from the database entities.
+- Response objects are records transformed from the database entities.
 
 <br>
 
-### Notes still progress ...
-- log files
-- add operations ... service will validate object before add, send error back to user if necessary
-- some note about adding to database
+### Logging
+- A timestamped log file in the logs directory is generated with each execution.
 
 <br>
 
@@ -93,6 +93,10 @@ Key: 13, Title: The American Revolution: An Intimate History, Author: Geoffrey C
 Key: 32, Title: A Prayer In Spring, Author: Dylan Vickers, Genre: HISTORY
 Key: 51, Title: The crows above the forest call;, Author: Paisley Yates, Genre: HISTORY
 Key: 54, Title: What brought the kindred spider to that height,, Author: Philip Graham, Genre: HISTORY
+
+Enter message data file (or 'Q' to quit): GetBookReviews09.json
+Key: 11, Title: Gregor and the Prophecy of Bane, Score: 3, ReviewDate: 2024-05-16 00:00:00, This book was way too dark for kids.
+Key: 12, Title: Gregor and the Prophecy of Bane, Score: 10, ReviewDate: 2024-05-17 00:00:00, Every child should read this book.
 
 Enter message data file (or 'Q' to quit): q
 Execution complete
