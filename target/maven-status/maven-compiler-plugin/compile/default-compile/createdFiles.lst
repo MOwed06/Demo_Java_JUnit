@@ -2,11 +2,13 @@ demo\mowed\database\JpaUtil.class
 demo\mowed\requests\AuthRequest.class
 demo\mowed\interfaces\IAccountService.class
 demo\mowed\requests\BookAddDto.class
+demo\mowed\utils\MathHelper.class
 demo\mowed\core\MessageType.class
 demo\mowed\core\ApplicationRunner.class
 demo\mowed\services\BookService.class
 demo\mowed\database\AccountTransaction.class
 demo\mowed\requests\AccountAddDto.class
+demo\mowed\utils\StringHelper.class
 demo\mowed\utils\TimeHelper.class
 demo\mowed\requests\GetMessage.class
 demo\mowed\responses\BookDetailsRecord.class
@@ -26,6 +28,7 @@ demo\mowed\responses\BookOverviewRecord.class
 demo\mowed\core\TransactionType.class
 demo\mowed\interfaces\IAuthorizationService.class
 demo\mowed\database\Account.class
+demo\mowed\responses\BookReviewRecord.class
 demo\mowed\core\ApplicationRunner$1.class
 demo\mowed\database\Book.class
 demo\mowed\utils\RandomHelper.class

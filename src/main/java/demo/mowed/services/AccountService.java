@@ -152,7 +152,7 @@ public class AccountService implements IAccountService {
         return new TransactionOverviewRecord(dao.getKey(),
                 dao.getTransactionDateTime(),
                 transactionType,
-                MathHelper.truncate(dao.getTransactionAmount(), 2),
+                dao.getTransactionAmount(),
                 dao.getBookKey(),
                 dao.getPurchaseQuantity());
     }

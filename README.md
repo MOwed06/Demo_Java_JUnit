@@ -20,10 +20,14 @@ This project is a first step toward an eventual Java Web API application. This i
   - This service is called internally from the other services as a pre-condition to performing the user's requested operation.
 - AccountService
   - GET_ACCOUNT ~ Retrieve account info (and transaction history) for a selected user. Requires admin role.
+    - example message: GetUser22.json
   - ADD_ACCOUNT ~ Add new account. Requires admin role.
+    - example message: AddAccountJohnDoe.json (note - must change email with repeated executions)
 - BookService
   - GET_BOOK ~ Retrieve details of a specific book.
+    - example message: GetBook17.json
   - GET_BOOK_BY_GENRE ~ Retrieve overview list of books by selected genre.
+    - example message: GetBooksHistory.json
 
 ### Database
 
@@ -77,18 +81,23 @@ Example application run:
 PS C:\GitHub\Demo_Java_JUnit> java -jar target\LittleBooks-1.0-SNAPSHOT.jar
 
 Enter message data file (or 'Q' to quit): GetUser22.json
-Key: 22, Email: Philip.Grant@demo.com, Admin: false, Active: true, Wallet: 179.339996
-Key: 34, PURCHASE, Date: 2025-11-13 11:18:24, Amount: -23.700001, Book: 29, Qty: 1
-Key: 35, PURCHASE, Date: 2025-11-14 11:18:25, Amount: -10.370000, Book: 15, Qty: 1
-Key: 36, PURCHASE, Date: 2025-11-15 11:18:25, Amount: -17.299999, Book: 40, Qty: 1
-Key: 37, PURCHASE, Date: 2025-11-16 11:18:26, Amount: -19.280001, Book: 62, Qty: 1
+Key: 22, Email: Philip.Grant@demo.com, Admin: false, Active: true, Wallet: $179.34
+Key: 34, PURCHASE, Date: 2025-11-13 11:18:24, Amount: -$23.70, Book: 29, Qty: 1
+Key: 35, PURCHASE, Date: 2025-11-14 11:18:25, Amount: -$10.37, Book: 15, Qty: 1
+Key: 36, PURCHASE, Date: 2025-11-15 11:18:25, Amount: -$17.30, Book: 40, Qty: 1
+Key: 37, PURCHASE, Date: 2025-11-16 11:18:26, Amount: -$19.28, Book: 62, Qty: 1
 
-Enter message data file (or 'Q' to quit): GetBook17.json
-Key: 17, Title: 'I guess you'd find the fountain just as empty., Author: Dylan Vickers, Genre: FICTION, Price: 18.540001, Available: true, Rating: null, Reviews: 0
+Enter message data file (or 'Q' to quit): GetBooksHistory.json
+Key: 4, Title: Citizen Soldiers, Author: Stephen Ambrose, Genre: HISTORY
+Key: 13, Title: The American Revolution: An Intimate History, Author: Geoffrey C. Ward, Genre: HISTORY
+Key: 32, Title: A Prayer In Spring, Author: Dylan Vickers, Genre: HISTORY
+Key: 51, Title: The crows above the forest call;, Author: Paisley Yates, Genre: HISTORY
+Key: 54, Title: What brought the kindred spider to that height,, Author: Philip Graham, Genre: HISTORY
 
 Enter message data file (or 'Q' to quit): q
 Execution complete
 
+Application ended
 ```
 
 <br>

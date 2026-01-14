@@ -60,7 +60,7 @@ public class BookService implements IBookService {
                 matchedBook.getIsbn(),
                 matchedBook.getDescription(),
                 bookGenre,
-                MathHelper.truncate(matchedBook.getPrice(), 2),
+                matchedBook.getPrice(),
                 isAvailable,
                 rating,
                 reviewCount);

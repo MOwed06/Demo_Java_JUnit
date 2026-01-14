@@ -26,9 +26,12 @@ C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\responses\AccountDetailsRecor
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\responses\AuthResponse.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\responses\BookDetailsRecord.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\responses\BookOverviewRecord.java
+C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\responses\BookReviewRecord.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\responses\TransactionOverviewRecord.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\services\AccountService.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\services\AuthorizationService.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\services\BookService.java
+C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\utils\MathHelper.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\utils\RandomHelper.java
+C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\utils\StringHelper.java
 C:\GitHub\Demo_Java_JUnit\src\main\java\demo\mowed\utils\TimeHelper.java
