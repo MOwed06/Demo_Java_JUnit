@@ -7,13 +7,13 @@ import demo.mowed.requests.*;
 import demo.mowed.responses.AuthResponse;
 import demo.mowed.responses.BookOverviewRecord;
 import demo.mowed.responses.BookReviewRecord;
+import demo.mowed.utils.TimeHelper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +44,8 @@ class BookServiceTest {
         historyBooks.add(new BookOverviewRecord(32, "A Prayer In Spring", "Dylan Vickers", Genre.HISTORY));
 
         gregorBookReviews = new ArrayList<>();
-        gregorBookReviews.add(new BookReviewRecord(11, "Gregor and the Prophecy of Bane", 3, LocalDateTime.parse("2024-05-16T00:00:00"), "This book was way too dark for kids."));
-        gregorBookReviews.add(new BookReviewRecord(12, "Gregor and the Prophecy of Bane", 10, LocalDateTime.parse("2024-05-17T00:00:00"), "Every child should read this book."));
+        gregorBookReviews.add(new BookReviewRecord(11, "Gregor and the Prophecy of Bane", 3, TimeHelper.parse("2024-05-16"), "This book was way too dark for kids."));
+        gregorBookReviews.add(new BookReviewRecord(12, "Gregor and the Prophecy of Bane", 10, TimeHelper.parse("2024-05-17"), "Every child should read this book."));
     }
 
     @BeforeEach

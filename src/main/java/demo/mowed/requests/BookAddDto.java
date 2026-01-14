@@ -18,6 +18,7 @@ public class BookAddDto {
     private final float PRICE_MAX = 1000.0f;
     private final int STOCK_MIN = 0;
     private final int STOCK_MAX = 1000;
+    private final int DESCRIPTION_MAX_SIZE = 500;
 
     private String title;
     private String author;
@@ -144,6 +145,14 @@ public class BookAddDto {
             validationErrors.add("stockQuantity < " + STOCK_MIN);
         } else if (stockQuantity > STOCK_MAX) {
             validationErrors.add("stockQuantity < " + STOCK_MAX);
+        }
+
+        if (ApplicationConstants.RANDOM_REPLACE.equals(description)) {
+            description = RandomHelper.generatePhrase();
+        }
+
+        if ((description != null) && (description.length() > DESCRIPTION_MAX_SIZE)) {
+            validationErrors.add("description < " + DESCRIPTION_MAX_SIZE);
         }
 
         if (!validationErrors.isEmpty()) {

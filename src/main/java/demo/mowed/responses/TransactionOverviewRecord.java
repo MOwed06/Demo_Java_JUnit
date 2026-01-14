@@ -20,14 +20,14 @@ public record TransactionOverviewRecord(int key,
                     key,
                     transactionType.toString(),
                     TimeHelper.formatDateTime(transactionDateTime),
-                    StringHelper.floatToCurrency(transactionAmount));
+                    StringHelper.toCurrency(transactionAmount));
         }
         // book purchase
         return String.format("Key: %d, %s, Date: %s, Amount: %s, Book: %d, Qty: %d",
                 key,
                 transactionType.toString(),
                 TimeHelper.formatDateTime(transactionDateTime),
-                StringHelper.floatToCurrency(transactionAmount),
+                StringHelper.toCurrency(transactionAmount),
                 bookKey,
                 purchaseQuantity);
     }

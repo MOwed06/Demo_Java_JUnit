@@ -24,7 +24,7 @@ public record BookDetailsRecord(int key,
                 this.title,
                 this.author,
                 this.genre().toString(),
-                StringHelper.floatToCurrency(this.price),
+                StringHelper.toCurrency(this.price),
                 this.isAvailable,
                 this.rating,
                 this.reviewCount);

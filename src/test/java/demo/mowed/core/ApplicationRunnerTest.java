@@ -3,6 +3,7 @@ package demo.mowed.core;
 import demo.mowed.interfaces.IAccountService;
 import demo.mowed.interfaces.IBookService;
 import demo.mowed.requests.AccountAddMessage;
+import demo.mowed.requests.BookAddMessage;
 import demo.mowed.requests.GetMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,6 +78,16 @@ class ApplicationRunnerTest {
         testObject.processRequest(userEntry);
         // assert
         verify(mockAccountService).addAccount(any(AccountAddMessage.class));
+    }
+
+    @Test
+    void testAddBookProcess() {
+        // arrange
+        String userEntry = "AddBookGreatContradiction.json";
+        // act
+        testObject.processRequest(userEntry);
+        // assert
+        verify(mockBookService).addBook(any(BookAddMessage.class));
     }
 
     @Test
