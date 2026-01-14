@@ -1,7 +1,8 @@
 package demo.mowed.requests;
 
+import demo.mowed.core.ApplicationConstants;
 import demo.mowed.core.BookStoreException;
-import lombok.*;
+import demo.mowed.utils.RandomHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +19,12 @@ public class AccountAddDto {
     private final float WALLET_MIN_SIZE = 1.0f;
     private final float WALLET_MAX_SIZE = 5000f;
 
-    @Getter
-    @Setter
     private String userEmail;
 
-    @Getter
-    @Setter
     private String userPassword;
 
-    // there is a curious interaction between jackson and lombak
-    // which causes the json file object "admin" to map to "isAdmin" field
-    @Getter
-    @Setter
     private boolean isAdmin;
 
-    @Getter
-    @Setter
     private float wallet;
 
     public AccountAddDto() {
@@ -46,12 +37,47 @@ public class AccountAddDto {
         this.wallet = wallet;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public float getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(float wallet) {
+        this.wallet = wallet;
+    }
+
     /*
     Confirm field values valid before add/update operation
-    This logic is temporary until I identify more suitable solution
      */
     public void validate() {
         List<String> validationErrors = new ArrayList<>();
+
+        if (ApplicationConstants.RANDOM_REPLACE.equals(userEmail)){
+            userEmail = RandomHelper.generateEmail();
+        }
 
         if (userEmail == null) {
             validationErrors.add("userEmail is required");

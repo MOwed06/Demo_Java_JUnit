@@ -1,5 +1,6 @@
 package demo.mowed.interfaces;
 
+import demo.mowed.requests.BookAddMessage;
 import demo.mowed.requests.GetMessage;
 import demo.mowed.responses.BookDetailsRecord;
 import demo.mowed.responses.BookOverviewRecord;
@@ -13,4 +14,6 @@ public interface IBookService {
     List<BookOverviewRecord> getBooksByGenre(GetMessage request);
 
     List<BookReviewRecord> getBookReviews(GetMessage request);
+
+    BookDetailsRecord addBook(BookAddMessage request);
 }

@@ -1,18 +1,23 @@
 package demo.mowed.requests;
 
 import demo.mowed.core.MessageType;
-import lombok.*;
 
 public class AccountAddMessage extends RequestMessage {
-    @Getter
-    @Setter
-    private AccountAddDto addDto;
+    private AccountAddDto body;
 
     public AccountAddMessage() {
     }
 
     public AccountAddMessage(AuthRequest authRequest, AccountAddDto dto) {
         super(MessageType.POST_ADD_ACCOUNT, authRequest);
-        this.addDto = dto;
+        this.body = dto;
+    }
+
+    public AccountAddDto getBody() {
+        return body;
+    }
+
+    public void setBody(AccountAddDto body) {
+        this.body = body;
     }
 }

@@ -57,9 +57,13 @@ public class RandomHelper {
         return String.format("%s.%s@demo.com", firstName, lastName);
     }
 
-    public static String getGUID() {
+    public static String generateGUID() {
         var guid = UUID.randomUUID();
         return guid.toString().toUpperCase();
+    }
+
+    public static String generatePhrase() {
+        return selectItem(sentences);
     }
 
     // demo purposes only

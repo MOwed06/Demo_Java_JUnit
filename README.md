@@ -22,7 +22,8 @@ This project is a first step toward an eventual Java Web API application. This i
   - GET_ACCOUNT ~ Retrieve account info (and transaction history) for a selected user. Requires admin role.
     - example message: GetUser22.json
   - ADD_ACCOUNT ~ Add new account. Requires admin role.
-    - example message: AddAccountJohnDoe.json (note - must change email with repeated executions)
+    - example message: AddAccountSomePerson.json
+    - userEmail must be unique (not a duplicate of any existing user in db)
 - BookService
   - GET_BOOK ~ Retrieve details of a specific book.
     - example message: GetBook17.json
@@ -30,6 +31,19 @@ This project is a first step toward an eventual Java Web API application. This i
     - example message: GetBooksHistory.json
   - GET_BOOK_REVIEWS ~ Retrieve reviews for designated book.
     - example message: GetBookReviews09.json
+  - POST_ADD_BOOK ~ Add book to database
+    - example message: AddBookRandom.json
+    - book isbn value must be unique (preferrably a GUID string)
+
+_TRIPLE_QUESTION_MARK_
+  - For user convenience, selected properties on ADD/UPDATE request messages may be replaced with a "???".
+  - This is a demonstration feature only to simplify operations requiring property uniqueness.
+  - This may be applied to the following objects:
+    - AccountAddMessage.body.userEmail
+    - BookAddMessage.body.title
+    - BookAddMessage.body.author
+    - BookAddMessage.body.isbn
+    - BookAddMessage.body.description
 
 ### Database
 
@@ -64,6 +78,7 @@ This project is a first step toward an eventual Java Web API application. This i
 <br>
 
 ### Feature Backlog
+- unit tests for invalid account add, invalid book add
 - implement TransactionService 
 - convert AddUpdate dto objects for range validation with bean package
 - add support to delete user (to simplify unit test)
@@ -97,6 +112,12 @@ Key: 54, Title: What brought the kindred spider to that height,, Author: Philip 
 Enter message data file (or 'Q' to quit): GetBookReviews09.json
 Key: 11, Title: Gregor and the Prophecy of Bane, Score: 3, ReviewDate: 2024-05-16 00:00:00, This book was way too dark for kids.
 Key: 12, Title: Gregor and the Prophecy of Bane, Score: 10, ReviewDate: 2024-05-17 00:00:00, Every child should read this book.
+
+Enter message data file (or 'Q' to quit): AddAccountRandom.json
+Key: 53, Email: Santiago.Long@demo.com, Admin: false, Active: true, Wallet: $123.45
+
+Enter message data file (or 'Q' to quit): AddBookRandom.json
+Key: 65, Title: I have it in me so much nearer home, Author: Parker Johansson, Genre: FICTION, Price: $31.52, Available: true, Rating: null, Reviews: 0
 
 Enter message data file (or 'Q' to quit): q
 Execution complete

@@ -1,8 +1,24 @@
 package demo.mowed.requests;
 
+import demo.mowed.core.ApplicationConstants;
+import demo.mowed.core.BookStoreException;
 import demo.mowed.core.Genre;
+import demo.mowed.utils.RandomHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookAddDto {
+    private final int BOOK_TITLE_MIN_SIZE = 2;
+    private final int BOOK_TITLE_MAX_SIZE = 150;
+    private final int AUTHOR_MIN_SIZE = 4;
+    private final int AUTHOR_MAX_SIZE = 100;
+    private final int GUID_SIZE = 36;
+    private final float PRICE_MIN = 0.01f;
+    private final float PRICE_MAX = 1000.0f;
+    private final int STOCK_MIN = 0;
+    private final int STOCK_MAX = 1000;
+
     private String title;
     private String author;
     private String isbn;
@@ -78,5 +94,61 @@ public class BookAddDto {
 
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+    public void validate() {
+        List<String> validationErrors = new ArrayList<>();
+
+        if (ApplicationConstants.RANDOM_REPLACE.equals(title)) {
+            title = RandomHelper.generatePhrase();
+        }
+
+        if (title == null) {
+            validationErrors.add("title is required");
+        } else if (title.length() < BOOK_TITLE_MIN_SIZE) {
+            validationErrors.add("title length < " + BOOK_TITLE_MIN_SIZE);
+        } else if (title.length() > BOOK_TITLE_MAX_SIZE) {
+            validationErrors.add("title length < " + BOOK_TITLE_MAX_SIZE);
+        }
+
+        if (ApplicationConstants.RANDOM_REPLACE.equals(author)) {
+            author = RandomHelper.generatePerson();
+        }
+
+        if (author == null) {
+            validationErrors.add("author is required");
+        } else if (author.length() < AUTHOR_MIN_SIZE) {
+            validationErrors.add("author length < " + AUTHOR_MIN_SIZE);
+        } else if (author.length() > AUTHOR_MAX_SIZE) {
+            validationErrors.add("author length < " + AUTHOR_MAX_SIZE);
+        }
+
+        if (ApplicationConstants.RANDOM_REPLACE.equals(isbn)) {
+            isbn = RandomHelper.generateGUID();
+        }
+
+        // a parse of string to Guid would be better, but ... excessive for this demo
+        if (isbn == null) {
+            validationErrors.add("isbn is required");
+        } else if (isbn.length() != GUID_SIZE) {
+            validationErrors.add("invalid isbn value " + isbn);
+        }
+
+        if (price < PRICE_MIN) {
+            validationErrors.add("price < " + PRICE_MIN);
+        } else if (price > PRICE_MAX) {
+            validationErrors.add("price < " + PRICE_MAX);
+        }
+
+        if (stockQuantity < STOCK_MIN) {
+            validationErrors.add("stockQuantity < " + STOCK_MIN);
+        } else if (stockQuantity > STOCK_MAX) {
+            validationErrors.add("stockQuantity < " + STOCK_MAX);
+        }
+
+        if (!validationErrors.isEmpty()) {
+            // if any validation errors, throw exception
+            throw new BookStoreException(String.join(", ", validationErrors));
+        }
     }
 }
