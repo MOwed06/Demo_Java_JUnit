@@ -1,7 +1,6 @@
 package demo.mowed.requests;
 
 import demo.mowed.core.BookStoreException;
-import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +17,12 @@ public class AccountAddDto {
     private final float WALLET_MIN_SIZE = 1.0f;
     private final float WALLET_MAX_SIZE = 5000f;
 
-    @Getter
-    @Setter
     private String userEmail;
 
-    @Getter
-    @Setter
     private String userPassword;
 
-    // there is a curious interaction between jackson and lombak
-    // which causes the json file object "admin" to map to "isAdmin" field
-    @Getter
-    @Setter
     private boolean isAdmin;
 
-    @Getter
-    @Setter
     private float wallet;
 
     public AccountAddDto() {
@@ -80,5 +69,37 @@ public class AccountAddDto {
             // if any validation errors, throw exception
             throw new BookStoreException(String.join(", ", validationErrors));
         }
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public float getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(float wallet) {
+        this.wallet = wallet;
     }
 }

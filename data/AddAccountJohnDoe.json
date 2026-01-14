@@ -7,7 +7,7 @@
   "addDto": {
     "userEmail": "John.Doe.101@demo.com",
     "userPassword": "s0meW0rds",
-    "admin": false,
+    "isAdmin": false,
     "wallet": 123.45
   }
 }

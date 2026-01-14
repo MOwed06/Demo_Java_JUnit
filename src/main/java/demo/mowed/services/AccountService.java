@@ -52,7 +52,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountDetailsRecord addAccount(AccountAddMessage request) {
-        var addUserDto = request.getAddDto();
+        var addUserDto = request.getBody();
         var addUserEmail = addUserDto.getUserEmail();
         LOGGER.debug("Message: {}, AddedUser: {}",
                 request.getMessageType(),
