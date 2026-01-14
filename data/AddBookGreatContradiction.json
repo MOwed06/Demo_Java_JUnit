@@ -1,5 +1,5 @@
 {
-  "messageType": "GET_BOOKS_BY_AUTHOR",
+  "messageType": "POST_ADD_BOOK",
   "authRequest": {
     "userId": "Bruce.Wayne@demo.com",
     "password": "N0tV3ryS3cret"

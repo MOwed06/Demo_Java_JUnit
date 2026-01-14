@@ -56,4 +56,14 @@ public class Book {
     @Setter
     @OneToMany(mappedBy = "bookKey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookReview> reviews = new ArrayList<>();
+
+    public Book(String title, String author, String description, int genre, float price, int stockQuantity, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.genre = genre;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.isbn = isbn;
+    }
 }

@@ -1,5 +1,6 @@
 package demo.mowed.services;
 
+import demo.mowed.core.BookStoreException;
 import demo.mowed.core.Genre;
 import demo.mowed.core.MessageType;
 import demo.mowed.database.*;
@@ -15,6 +16,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -43,6 +45,10 @@ public class BookService implements IBookService {
 
         this.authService.authorize(request.getAuthRequest());
 
+        return buildBookDetailsRecord(requestKey);
+    }
+
+    private @Nullable BookDetailsRecord buildBookDetailsRecord(Integer requestKey) {
         var matchedBook = findBookByKey(requestKey);
         if (matchedBook == null) {
             LOGGER.warn("No book for key: {}", requestKey);
@@ -121,6 +127,70 @@ public class BookService implements IBookService {
                         r.getReviewDate(),
                         r.getDescription()))
                 .toList();
+    }
+
+    public BookDetailsRecord addBook(BookAddMessage request) {
+        var dto = request.getBody();
+        var requestTitle = dto.getTitle();
+        LOGGER.debug("Message: {}, Title: {}",
+                request.getMessageType(),
+                requestTitle);
+
+        var authResponse = this.authService.authorize(request.getAuthRequest());
+        // only admin user has permission to add book
+        if (!authResponse.isAdmin()) {
+            throw new BookStoreException("Admin privileges required to add accounts");
+        }
+
+        // confirm dto parameters valid before adding to database
+        dto.validate();
+        var requestIsbn = dto.getIsbn();
+        var existingBook = checkBookExists(requestIsbn);
+        if (existingBook) {
+            throw new BookStoreException("Cannot add book, existing isbn: " + requestIsbn);
+        }
+
+        var addBook = new Book(dto.getTitle(),
+                dto.getAuthor(),
+                dto.getDescription(),
+                dto.getGenre().getCode(),
+                dto.getPrice(),
+                dto.getStockQuantity(),
+                dto.getIsbn());
+
+        int createdBookKey = createBook(addBook);
+        LOGGER.info("Created Book: " + createdBookKey);
+
+        return buildBookDetailsRecord(createdBookKey);
+    }
+
+    private int createBook(Book addBook) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(addBook);
+            em.getTransaction().commit();
+            return addBook.getKey();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new BookStoreException("Failed to create book: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean checkBookExists(String isbnValue) {
+        try (EntityManager em = JpaUtil.getEntityManager()) {
+            TypedQuery<Book> query = em.createQuery(
+                    "SELECT b FROM Book b WHERE b.isbn = :isbn",
+                    Book.class
+            );
+            query.setParameter("isbn", isbnValue);
+            List<Book> results = query.getResultList();
+            return !results.isEmpty();
+        }
     }
 
     /*

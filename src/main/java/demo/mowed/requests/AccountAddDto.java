@@ -37,9 +37,40 @@ public class AccountAddDto {
         this.wallet = wallet;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public float getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(float wallet) {
+        this.wallet = wallet;
+    }
+
     /*
     Confirm field values valid before add/update operation
-    This logic is temporary until I identify more suitable solution
      */
     public void validate() {
         List<String> validationErrors = new ArrayList<>();
@@ -75,37 +106,5 @@ public class AccountAddDto {
             // if any validation errors, throw exception
             throw new BookStoreException(String.join(", ", validationErrors));
         }
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
-    public float getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(float wallet) {
-        this.wallet = wallet;
     }
 }

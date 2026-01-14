@@ -1,0 +1,16 @@
+{
+  "messageType": "POST_ADD_BOOK",
+  "authRequest": {
+    "userId": "Bruce.Wayne@demo.com",
+    "password": "N0tV3ryS3cret"
+  },
+  "body": {
+    "title": "???",
+    "author": "???",
+    "isbn": "???",
+    "description": "???",
+    "genre": "FICTION",
+    "price": 31.52,
+    "stockQuantity": 13
+  }
+}

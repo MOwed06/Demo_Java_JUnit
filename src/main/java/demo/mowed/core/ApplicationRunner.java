@@ -101,6 +101,11 @@ public class ApplicationRunner {
                 var addAccountRsp = this.accountService.addAccount(addAccountMsg);
                 return  processElement(addAccountRsp);
 
+            case MessageType.POST_ADD_BOOK:
+                var addBookMsg = OBJECT_MAPPER.readValue(messageFile, BookAddMessage.class);
+                var addBookRsp = this.bookService.addBook(addBookMsg);
+                return processElement(addBookRsp);
+
             default:
                 throw new BookStoreException("Unknown message type: " + messageType);
         }
@@ -124,7 +129,8 @@ public class ApplicationRunner {
         try {
             var appRunner = new ApplicationRunner();
             //var response = appRunner.processRequest("GetBook17.json");
-            var response = appRunner.processRequest("GetBooksHistory.json");
+            //var response = appRunner.processRequest("GetBooksHistory.json");
+            var response = appRunner.processRequest("AddBookRandom.json");
             System.out.println(response.statusMessage());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
