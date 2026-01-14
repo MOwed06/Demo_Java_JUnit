@@ -154,7 +154,7 @@ public class BookService implements IBookService {
                 dto.getAuthor(),
                 dto.getDescription(),
                 dto.getGenre().getCode(),
-                dto.getPrice(),
+                MathHelper.truncate(dto.getPrice(), 2),
                 dto.getStockQuantity(),
                 dto.getIsbn());
 

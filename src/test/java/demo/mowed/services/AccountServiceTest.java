@@ -7,15 +7,13 @@ import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AuthResponse;
 import demo.mowed.responses.TransactionOverviewRecord;
-import demo.mowed.utils.MathHelper;
 import demo.mowed.utils.RandomHelper;
+import demo.mowed.utils.TimeHelper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,11 +46,11 @@ class AccountServiceTest {
 
         // transactions for user 5 (Bella Barnes) are predefined
         user5Transations = new ArrayList<>();
-        user5Transations.add(new TransactionOverviewRecord(4, parseDT("2025-04-01T00:00:00"), TransactionType.PURCHASE, -33.21f, 2, 3));
-        user5Transations.add(new TransactionOverviewRecord(5, parseDT("2025-04-02T00:00:00"), TransactionType.PURCHASE, -16.71f, 8, 2));
-        user5Transations.add(new TransactionOverviewRecord(6, parseDT("2025-04-03T00:00:00"), TransactionType.PURCHASE, -9.07f, 9, 1));
-        user5Transations.add(new TransactionOverviewRecord(7, parseDT("2025-06-03T00:00:00"), TransactionType.PURCHASE, -9.17f, 9, 1));
-        user5Transations.add(new TransactionOverviewRecord(8, parseDT("2025-06-04T00:00:00"), TransactionType.DEPOSIT, 75.00f, null, null));
+        user5Transations.add(new TransactionOverviewRecord(4, TimeHelper.parse("2025-04-01"), TransactionType.PURCHASE, -33.21f, 2, 3));
+        user5Transations.add(new TransactionOverviewRecord(5, TimeHelper.parse("2025-04-02"), TransactionType.PURCHASE, -16.71f, 8, 2));
+        user5Transations.add(new TransactionOverviewRecord(6, TimeHelper.parse("2025-04-03"), TransactionType.PURCHASE, -9.07f, 9, 1));
+        user5Transations.add(new TransactionOverviewRecord(7, TimeHelper.parse("2025-06-03"), TransactionType.PURCHASE, -9.17f, 9, 1));
+        user5Transations.add(new TransactionOverviewRecord(8, TimeHelper.parse("2025-06-04"), TransactionType.DEPOSIT, 75.00f, null, null));
     }
 
     @BeforeEach
@@ -155,9 +153,5 @@ class AccountServiceTest {
         });
         // assert
         assertTrue(ex.getMessage().contains("Cannot add new user, existing user"));
-    }
-
-    private static LocalDateTime parseDT(String timeString) {
-        return  LocalDateTime.parse(timeString);
     }
 }

@@ -6,7 +6,7 @@ import java.util.Locale;
 public class StringHelper {
     private static final NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
 
-    public static String floatToCurrency(float value) {
+    public static String toCurrency(float value) {
         return formatter.format(value);
     }
 }

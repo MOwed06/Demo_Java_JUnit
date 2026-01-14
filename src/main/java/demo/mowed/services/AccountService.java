@@ -11,7 +11,6 @@ import demo.mowed.interfaces.IAuthorizationService;
 import demo.mowed.requests.*;
 import demo.mowed.responses.AccountDetailsRecord;
 import demo.mowed.responses.TransactionOverviewRecord;
-import demo.mowed.utils.MathHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +24,7 @@ Methods named "get" and "add" have public scope.
 Methods named "find", "create", have private scope and act directly on the db.
  */
 public class AccountService implements IAccountService {
-    private IAuthorizationService authService;
+    private final IAuthorizationService authService;
 
     private static final Logger LOGGER = LogManager.getLogger(AccountService.class);
 

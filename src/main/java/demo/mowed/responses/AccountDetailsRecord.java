@@ -19,7 +19,7 @@ public record AccountDetailsRecord (int key,
                 userEmail,
                 isAdmin,
                 isActive,
-                StringHelper.floatToCurrency(wallet)));
+                StringHelper.toCurrency(wallet)));
         if (!transactions.isEmpty()) {
             for (TransactionOverviewRecord t : transactions) {
                 sb.append("\n");
