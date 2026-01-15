@@ -139,7 +139,7 @@ public class BookService implements IBookService {
         var authResponse = this.authService.authorize(request.getAuthRequest());
         // only admin user has permission to add book
         if (!authResponse.isAdmin()) {
-            throw new BookStoreException("Admin privileges required to add accounts");
+            throw new BookStoreException("Admin privileges required to add book");
         }
 
         // confirm dto parameters valid before adding to database
