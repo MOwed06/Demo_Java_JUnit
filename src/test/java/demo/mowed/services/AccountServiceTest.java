@@ -21,9 +21,8 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class AccountServiceTest {
+class AccountServiceTest extends CommonTest {
 
-    private static final String SOME_ADMIN = "BobTheAdministrator";
     private static IAuthorizationService authService;
     private AccountService testObject;
     private final int BELLA_BARNES_KEY = 5;
@@ -31,18 +30,7 @@ class AccountServiceTest {
 
     @BeforeAll
     static void setupOnce(){
-        // set authService mock to respond based on specific credentials
-        authService = mock(IAuthorizationService.class);
-
-        // when authorizing with Bob, return valid admin user
-        when(authService.authorize(argThat(p -> p != null && 
-                p.getUserId().equals(SOME_ADMIN))))
-                .thenReturn(new AuthResponse(true, true));
-        
-        // for any other auth request, return active but not admin
-        when(authService.authorize(argThat(p -> p == null || 
-                !p.getUserId().equals(SOME_ADMIN))))
-                .thenReturn(new AuthResponse(true, false));
+        authService = CommonTest.mockAuthBuilder();
 
         // transactions for user 5 (Bella Barnes) are predefined
         user5Transations = new ArrayList<>();
@@ -72,7 +60,7 @@ class AccountServiceTest {
         assertAll("account basic info",
                 () -> assertEquals(BELLA_BARNES_KEY, observed.key()),
                 () -> assertEquals("Bella.Barnes@demo.com", observed.userEmail()),
-                () -> assertEquals(50.0f, observed.wallet()),
+                () -> assertEquals(50.0f, observed.wallet(), CURRENCY_TOLERANCE),
                 () -> assertFalse(observed.isAdmin()),
                 () -> assertTrue(observed.isActive()));
     }
@@ -82,7 +70,7 @@ class AccountServiceTest {
         // arrange
         var requestMessage = new GetMessage(
                 MessageType.GET_ACCOUNT,
-                new AuthRequest(SOME_ADMIN, "password"),
+                new AuthRequest(SOME_ADMIN, ANY_PASSWORD),
                 new QueryParameters(BELLA_BARNES_KEY)
         );
         // act
@@ -97,7 +85,7 @@ class AccountServiceTest {
         final int BELLA_BARNES_KEY = 5;
         var requestMessage = new GetMessage(
                 MessageType.GET_ACCOUNT,
-                new AuthRequest("someNotAdminPerson", "password"),
+                new AuthRequest(SOME_CUSTOMER, ANY_PASSWORD),
                 new QueryParameters(BELLA_BARNES_KEY)
         );
         // act
@@ -121,7 +109,7 @@ class AccountServiceTest {
                 false,
                 RandomHelper.getFloat(34.5f, 231.2f));
         var requestMessage = new AccountAddMessage(
-                new AuthRequest(SOME_ADMIN, "password"),
+                new AuthRequest(SOME_ADMIN, ANY_PASSWORD),
                 addDto);
         // act
         var observed = testObject.addAccount(requestMessage);
@@ -129,7 +117,7 @@ class AccountServiceTest {
         assertAll("add account info",
                 () -> assertTrue(observed.key() > 0),
                 () -> assertEquals(addDto.getUserEmail(), observed.userEmail()),
-                () -> assertEquals(addDto.getWallet(), observed.wallet()),
+                () -> assertEquals(addDto.getWallet(), observed.wallet(), CURRENCY_TOLERANCE),
                 () -> assertFalse(observed.isAdmin()),
                 () -> assertTrue(observed.isActive()),
                 () -> assertTrue(observed.transactions().isEmpty())
@@ -145,7 +133,7 @@ class AccountServiceTest {
                 false,
                 RandomHelper.getFloat(34.5f, 231.2f));
         var requestMessage = new AccountAddMessage(
-                new AuthRequest(SOME_ADMIN, "password"),
+                new AuthRequest(SOME_ADMIN, ANY_PASSWORD),
                 addDto);
         // act
         Exception ex = assertThrows(BookStoreException.class, () -> {
