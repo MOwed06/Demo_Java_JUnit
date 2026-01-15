@@ -118,7 +118,7 @@ public class ApplicationRunner {
     private ApplicationResponse processElements(List<?> elements) {
         var elementsStringList = elements
                 .stream()
-                .map(e -> e.toString())
+                .map(e -> (e == null) ? "null" : e.toString())
                 .toList();
         var statusMessage = String.join("\n", elementsStringList);
         return new ApplicationResponse(true, statusMessage);
