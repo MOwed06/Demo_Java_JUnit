@@ -203,7 +203,7 @@ class BookServiceTest extends CommonTest {
                 RandomHelper.getInt(2, 11)
         );
         var requestMessage = new BookAddMessage(
-                new AuthRequest(SOME_ADMIN, "password"),
+                new AuthRequest(SOME_ADMIN, ANY_PASSWORD),
                 addDto);
         // act
         Exception ex = assertThrows(BookStoreException.class, () -> {

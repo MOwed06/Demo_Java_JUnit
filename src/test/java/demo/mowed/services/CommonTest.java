@@ -14,7 +14,7 @@ public class CommonTest {
     public static final String ANY_PASSWORD = "1234567";
 
     /*
-    Mock Servic will
+    Mock Service will
     - respond with active and admin authorization for "SOME_ADMIN" (defined above)
     - respond with active (but not admin) authorization for any other auth request
      */
