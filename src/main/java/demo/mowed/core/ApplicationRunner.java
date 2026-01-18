@@ -1,6 +1,5 @@
 package demo.mowed.core;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import demo.mowed.interfaces.IAccountService;
 import demo.mowed.interfaces.IAuthorizationService;
@@ -16,6 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/*
+ApplicationRunner is the engine for this demo application.
+The default constructor will instantiate the services which process user messages.
+A second constructor exists for purposes of unit testing.
+ */
 public class ApplicationRunner {
     private final IBookService bookService;
     private final IAccountService accountService;
@@ -40,6 +44,15 @@ public class ApplicationRunner {
         this.accountService = accountService;
     }
 
+    /**
+     * Process the user request received from console.
+     * @param userEntry
+     * - a message file which exists in the data directory
+     * - or 'Q' entry to quit application
+     * @return ApplicationResponse which includes
+     * - remainActive (boolean) to continue user input loop
+     * - statusMessage (String) for user display
+     */
     public ApplicationResponse processRequest(String userEntry) {
         try {
             if (userEntry.equals("Q") || userEntry.equals("q")) {
@@ -62,6 +75,18 @@ public class ApplicationRunner {
         }
     }
 
+    /*
+    Process input message file from user
+    Message is parsed twice
+    - Parse #1 to base RequestMessage object. This establishes the file messageType
+    - Parse #2 is specific to the request message class (per the message type from parse #1)
+    The service methods return response objects specific to the nature of the user request.
+    For example:
+    - a GET_BOOK request returns a BookDetailsRecord
+    - a GET_BOOK_REVIEWS request returns a List<BookReviewRecord>
+    These return objects are cast to a String for user display via either the
+    processElement() or processElements() methods.
+     */
     private ApplicationResponse processMessageFile(String userEntry) throws IOException {
         // look for file in data directory
         var fullName = String.format("data/%s", userEntry);
