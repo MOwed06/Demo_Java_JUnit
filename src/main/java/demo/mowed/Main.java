@@ -1,19 +1,19 @@
 package demo.mowed;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 import demo.mowed.core.ApplicationRunner;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    /*
+    endlessly process message files per user input
+    (or 'Q' for quit).
+     */
     public static void main(String[] argsG) {
         try {
             LOGGER.info("Starting");
